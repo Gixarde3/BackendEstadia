@@ -82,3 +82,13 @@ router.get('/carrera/:id', checkPrivileges(1), CarreraController.getById);
 router.post('/carrera', checkPrivileges(3), CarreraController.create);
 router.put('/carrera/:id', checkPrivileges(3), CarreraController.update);
 router.delete('/carrera/:id', checkPrivileges(3), CarreraController.delete);
+
+
+const { AsignaturaController } = require('../controllers');
+
+router.get('/asignaturas', checkPrivileges(2), AsignaturaController.getAll);
+router.get('/asignatura/:id', checkPrivileges(1), AsignaturaController.getById);
+router.post('/asignatura', checkPrivileges(2), AsignaturaController.create);
+router.put('/asignatura/:id', checkPrivileges(2), AsignaturaController.update);
+router.delete('/asignatura/:id', checkPrivileges(2), AsignaturaController.delete);
+

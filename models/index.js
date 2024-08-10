@@ -7,3 +7,5 @@ const Director = require('./Director.js');
 module.exports.Director = Director;
 const Carrera = require('./Carrera.js');
 module.exports.Carrera = Carrera;
+const Asignatura = require('./Asignatura.js');
+module.exports.Asignatura = Asignatura;

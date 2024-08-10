@@ -106,10 +106,8 @@ class ${modelName}Controller {
 module.exports = ${modelName}Controller;
 `;
 
-const routesTemplate = `const express = require('express');
-const router = express.Router();
+const routesTemplate = `
 const { ${modelName}Controller } = require('../controllers');
-const checkPrivileges = require('../middlewares/checkPrivileges');
 
 router.get('/${modelName.toLowerCase()}s', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getAll);
 router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(1), ${modelName}Controller.getById);
@@ -117,7 +115,6 @@ router.post('/${modelName.toLowerCase()}', checkPrivileges(${privilegeLevel}), $
 router.put('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.update);
 router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.delete);
 
-module.exports = router;
 `;
 
 // Crea los archivos en los directorios correspondientes
@@ -134,15 +131,6 @@ fs.writeFile(path.join(__dirname, 'controllers', controllerFileName), controller
         console.error('Error al crear el archivo del controlador:', err);
     } else {
         console.log(`Archivo de controlador creado: controllers/${controllerFileName}`);
-    }
-});
-
-// Crear el archivo de rutas
-fs.writeFile(path.join(__dirname, 'routes', routesFileName), routesTemplate, (err) => {
-    if (err) {
-        console.error('Error al crear el archivo de rutas:', err);
-    } else {
-        console.log(`Archivo de rutas creado: routes/${routesFileName}`);
     }
 });
 
@@ -186,7 +174,7 @@ fs.readFile(routesIndexPath, 'utf8', (err, data) => {
     if (err) {
         console.error('Error al leer el índice de rutas:', err);
     } else {
-        const updatedRoutesIndex = data + `\nconst ${modelName}Routes = require('./${routesFileName}');\nmodule.exports.${modelName}Routes = ${modelName}Routes;`;
+        const updatedRoutesIndex = data + `\n${routesTemplate}`;
         fs.writeFile(routesIndexPath, updatedRoutesIndex, (err) => {
             if (err) {
                 console.error('Error al actualizar el índice de rutas:', err);
