@@ -112,7 +112,7 @@ const { ${modelName}Controller } = require('../controllers');
 const checkPrivileges = require('../middlewares/checkPrivileges');
 
 router.get('/${modelName.toLowerCase()}s', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getAll);
-router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getById);
+router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(1), ${modelName}Controller.getById);
 router.post('/${modelName.toLowerCase()}', checkPrivileges(${privilegeLevel}), ${modelName}Controller.create);
 router.put('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.update);
 router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.delete);
