@@ -2,13 +2,20 @@ const express = require('express');
 const path = require('path');
 const models = require('../models');
 const controllers = require('../controllers');
-
 const router = express.Router();
 
-//Call UserController
-
-// Define your routes here
-
+// Middleware para verificar privilegios
+function checkPrivileges(requiredPrivilege) {
+    return (req, res, next) => {
+        if (!req.session.user) {
+            return res.status(401).send('Acceso no autorizado. Por favor inicia sesión.');
+        }
+        if (req.session.user.privilege < requiredPrivilege) {
+            return res.status(403).send('Acceso denegado. No tienes los privilegios suficientes.');
+        }
+        next();
+    };
+}
 // Example route
 router.get('/', (req, res) => {
     res.send('Hello, world!');
@@ -45,34 +52,35 @@ module.exports = router;
 
 const { UsuarioController } = require('../controllers');
 
-router.get('/usuarios', UsuarioController.getAll);
-router.get('/usuario/:id', UsuarioController.getById);
-router.post('/usuario', UsuarioController.create);
-router.put('/usuario/:id', UsuarioController.update);
-router.delete('/usuario/:id', UsuarioController.delete);
+router.get('/usuarios', checkPrivileges(3), UsuarioController.getAll);
+router.get('/usuario/:id', checkPrivileges(1), UsuarioController.getById);
+router.post('/usuario', /*checkPrivileges(3),*/ UsuarioController.create);
+router.put('/usuario/:id', checkPrivileges(3), UsuarioController.update);
+router.delete('/usuario/:id', checkPrivileges(3), UsuarioController.delete);
+router.post('/login', UsuarioController.login);
 
 const { ProfesorController } = require('../controllers');
 
-router.get('/profesors', ProfesorController.getAll);
-router.get('/profesor/:id', ProfesorController.getById);
-router.post('/profesor', ProfesorController.create);
-router.put('/profesor/:id', ProfesorController.update);
-router.delete('/profesor/:id', ProfesorController.delete);
+router.get('/profesors', checkPrivileges(3), ProfesorController.getAll);
+router.get('/profesor/:id', checkPrivileges(1), ProfesorController.getById);
+router.post('/profesor', checkPrivileges(3), ProfesorController.create);
+router.put('/profesor/:id', checkPrivileges(3), ProfesorController.update);
+router.delete('/profesor/:id', checkPrivileges(3), ProfesorController.delete);
 
 
 const { DirectorController } = require('../controllers');
 
-router.get('/directors', DirectorController.getAll);
-router.get('/director/:id', DirectorController.getById);
-router.post('/director', DirectorController.create);
-router.put('/director/:id', DirectorController.update);
-router.delete('/director/:id', DirectorController.delete);
+router.get('/directors',  checkPrivileges(3), DirectorController.getAll);
+router.get('/director/:id', checkPrivileges(1), DirectorController.getById);
+router.post('/director', checkPrivileges(3), DirectorController.create);
+router.put('/director/:id', checkPrivileges(3), DirectorController.update);
+router.delete('/director/:id', checkPrivileges(3), DirectorController.delete);
 
 //
 const { CarreraController } = require('../controllers');
 
-router.get('/carreras', CarreraController.getAll);
-router.get('/carrera/:id', CarreraController.getById);
-router.post('/carrera', CarreraController.create);
-router.put('/carrera/:id', CarreraController.update);
-router.delete('/carrera/:id', CarreraController.delete);
+router.get('/carreras', checkPrivileges(1), CarreraController.getAll);
+router.get('/carrera/:id', checkPrivileges(1), CarreraController.getById);
+router.post('/carrera', checkPrivileges(3), CarreraController.create);
+router.put('/carrera/:id', checkPrivileges(3), CarreraController.update);
+router.delete('/carrera/:id', checkPrivileges(3), CarreraController.delete);

@@ -61,6 +61,7 @@ class UsuarioController {
             if (!isPasswordValid) {
                 return res.status(401).send({ error: 'Invalid password' });
             }
+            req.session.user = user;
             res.send(user);
         } catch (error) {
             res.status(500).send({ error: error.message });

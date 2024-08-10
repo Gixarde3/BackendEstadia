@@ -4,7 +4,16 @@ const cors = require('cors');
 const path = require('path');
 var multipart = require('connect-multiparty');
 const app = express();
+const session = require('express-session');
 // Set up middleware
+
+app.use(session({
+    secret: 'WABARRABA2563!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Cambia a true si usas HTTPS
+}));
+
 
 var multipartMiddleware = multipart({uploadDir: path.join(__dirname, 'photos')});
 app.use(multipartMiddleware);

@@ -1,11 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-// Obtén el nombre del modelo del argumento de la consola
+// Obtén el nombre del modelo y el nivel de privilegio del argumento de la consola
 const modelName = process.argv[2];
+const privilegeLevel = process.argv[3];
 
 if (!modelName) {
     console.error('Por favor, proporciona un nombre para el modelo.');
+    process.exit(1);
+}
+
+if (!privilegeLevel) {
+    console.error('Por favor, proporciona un nivel de privilegio para las rutas.');
     process.exit(1);
 }
 
@@ -100,14 +106,18 @@ class ${modelName}Controller {
 module.exports = ${modelName}Controller;
 `;
 
-const routesTemplate = `//
+const routesTemplate = `const express = require('express');
+const router = express.Router();
 const { ${modelName}Controller } = require('../controllers');
+const checkPrivileges = require('../middlewares/checkPrivileges');
 
-router.get('/${modelName.toLowerCase()}s', ${modelName}Controller.getAll);
-router.get('/${modelName.toLowerCase()}/:id', ${modelName}Controller.getById);
-router.post('/${modelName.toLowerCase()}', ${modelName}Controller.create);
-router.put('/${modelName.toLowerCase()}/:id', ${modelName}Controller.update);
-router.delete('/${modelName.toLowerCase()}/:id', ${modelName}Controller.delete);
+router.get('/${modelName.toLowerCase()}s', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getAll);
+router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getById);
+router.post('/${modelName.toLowerCase()}', checkPrivileges(${privilegeLevel}), ${modelName}Controller.create);
+router.put('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.update);
+router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.delete);
+
+module.exports = router;
 `;
 
 // Crea los archivos en los directorios correspondientes
@@ -126,6 +136,16 @@ fs.writeFile(path.join(__dirname, 'controllers', controllerFileName), controller
         console.log(`Archivo de controlador creado: controllers/${controllerFileName}`);
     }
 });
+
+// Crear el archivo de rutas
+fs.writeFile(path.join(__dirname, 'routes', routesFileName), routesTemplate, (err) => {
+    if (err) {
+        console.error('Error al crear el archivo de rutas:', err);
+    } else {
+        console.log(`Archivo de rutas creado: routes/${routesFileName}`);
+    }
+});
+
 // Actualizar el índice de models
 const modelsIndexPath = path.join(__dirname, 'models', 'index.js');
 fs.readFile(modelsIndexPath, 'utf8', (err, data) => {
@@ -166,7 +186,7 @@ fs.readFile(routesIndexPath, 'utf8', (err, data) => {
     if (err) {
         console.error('Error al leer el índice de rutas:', err);
     } else {
-        const updatedRoutesIndex = data + `\n${routesTemplate}`;
+        const updatedRoutesIndex = data + `\nconst ${modelName}Routes = require('./${routesFileName}');\nmodule.exports.${modelName}Routes = ${modelName}Routes;`;
         fs.writeFile(routesIndexPath, updatedRoutesIndex, (err) => {
             if (err) {
                 console.error('Error al actualizar el índice de rutas:', err);
