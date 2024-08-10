@@ -1,0 +1,21 @@
+# Ignore database.sql
+database.sql
+
+# Ignore .env
+.env
+
+#Ignore fly.toml
+fly.toml
+
+# Ignore node_modules directory
+node_modules/
+
+photos/*.png
+photos/*.jpg
+photos/*.jpeg
+photos/*.gif
+photos/*.bmp
+photos/*.tiff
+photos/*.webp
+photos/*.svg
+photos/*.ico
