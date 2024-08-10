@@ -1,6 +1,6 @@
 // controllers/UsuarioController.js
 const models = require('../models');
-const brcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 class UsuarioController {
     static async getAll(req, res) {
@@ -23,7 +23,8 @@ class UsuarioController {
 
     static async create(req, res) {
         try {
-            const password = brcrypt(req.body.password);
+            console.log(req.body);
+            const password = bcrypt.hashSync(req.body.password, 10);
             req.body.password = password;
             const item = await models.Usuario.create(req.body);
             res.send(item);
@@ -52,12 +53,12 @@ class UsuarioController {
 
     static async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await models.Usuario.findOne({ where: { email } });
+            const { clave_identificacion, password } = req.body;
+            const user = await models.Usuario.findOne({clave_identificacion});
             if (!user) {
                 return res.status(404).send({ error: 'User not found' });
             }
-            const isPasswordValid = brcrypt.compare(password, user.password);
+            const isPasswordValid = bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return res.status(401).send({ error: 'Invalid password' });
             }

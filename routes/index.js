@@ -1,7 +1,5 @@
 const express = require('express');
-const path = require('path');
-const models = require('../models');
-const controllers = require('../controllers');
+const path = require('path');;
 const router = express.Router();
 
 // Middleware para verificar privilegios

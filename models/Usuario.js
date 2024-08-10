@@ -25,6 +25,11 @@ class Usuario {
         return db.query('DELETE FROM Usuario WHERE id = ?', [id])
             .then(() => ({ id }));
     }
+
+    static findOne(where) {
+        return db.query('SELECT * FROM Usuario WHERE ?', where)
+            .then(results => results[0]);
+    }
 }
 
 module.exports = Usuario;
