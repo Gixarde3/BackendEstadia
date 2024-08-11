@@ -60,7 +60,7 @@ class UsuarioController {
             if (!user) {
                 return res.status(404).send({ error: 'User not found' });
             }
-            const isPasswordValid = bcrypt.compare(password, user.password);
+            const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return res.status(401).send({ error: 'Invalid password' });
             }

@@ -10,7 +10,7 @@ const session = require('express-session');
 app.use(session({
     secret: 'WABARRABA2563!',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { 
         secure: false,
         maxAge: 15 * 60 * 1000
@@ -23,7 +23,10 @@ var multipartMiddleware = multipart({uploadDir: path.join(__dirname, 'photos')})
 app.use(multipartMiddleware);
 app.use(express.json());
 
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}))
 
 // Set up routes
 app.use('/', routes);
