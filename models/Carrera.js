@@ -7,7 +7,7 @@ class Carrera {
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM Carrera WHERE id = ?', [id])
+        return db.query('SELECT * FROM Carrera WHERE idCarrera = ?', [id])
             .then(results => results[0]);
     }
 
@@ -17,12 +17,12 @@ class Carrera {
     }
 
     static update(id, data) {
-        return db.query('UPDATE Carrera SET ? WHERE id = ?', [data, id])
+        return db.query('UPDATE Carrera SET ? WHERE idCarrera = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM Carrera WHERE id = ?', [id])
+        return db.query('DELETE FROM Carrera WHERE idCarrera = ?', [id])
             .then(() => ({ id }));
     }
 }

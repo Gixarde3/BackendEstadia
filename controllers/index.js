@@ -9,3 +9,7 @@ const CarreraController = require('./CarreraController.js');
 module.exports.CarreraController = CarreraController;
 const AsignaturaController = require('./AsignaturaController.js');
 module.exports.AsignaturaController = AsignaturaController;
+const MailController = require('./MailController.js');
+module.exports.MailController = MailController;
+const RecuperacionController = require('./RecuperacionController.js');
+module.exports.RecuperacionController = RecuperacionController;

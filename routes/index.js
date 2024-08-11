@@ -58,6 +58,9 @@ router.post('/usuario', /*checkPrivileges(3),*/ UsuarioController.create);
 router.put('/usuario/:id', checkPrivileges(3), UsuarioController.update);
 router.delete('/usuario/:id', checkPrivileges(3), UsuarioController.delete);
 router.post('/login', UsuarioController.login);
+router.get('/usuarios/:filter/:value', checkPrivileges(3), UsuarioController.getByFilter);
+router.post('/solicitar-cambio-contrasena', UsuarioController.solicitarCambioContrasena);
+router.post('/cambiar-contrasena', UsuarioController.cambiarContrasena);
 
 const { ProfesorController } = require('../controllers');
 
@@ -93,4 +96,14 @@ router.get('/asignatura/:id', checkPrivileges(1), AsignaturaController.getById);
 router.post('/asignatura', checkPrivileges(3), AsignaturaController.create);
 router.put('/asignatura/:id', checkPrivileges(3), AsignaturaController.update);
 router.delete('/asignatura/:id', checkPrivileges(3), AsignaturaController.delete);
+
+
+
+const { RecuperacionController } = require('../controllers');
+
+router.get('/recuperacions', checkPrivileges(0), RecuperacionController.getAll);
+router.get('/recuperacion/:id', checkPrivileges(1), RecuperacionController.getById);
+router.post('/recuperacion', checkPrivileges(0), RecuperacionController.create);
+router.put('/recuperacion/:id', checkPrivileges(0), RecuperacionController.update);
+router.delete('/recuperacion/:id', checkPrivileges(0), RecuperacionController.delete);
 

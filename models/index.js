@@ -9,3 +9,5 @@ const Carrera = require('./Carrera.js');
 module.exports.Carrera = Carrera;
 const Asignatura = require('./Asignatura.js');
 module.exports.Asignatura = Asignatura;
+const Recuperacion = require('./Recuperacion.js');
+module.exports.Recuperacion = Recuperacion;

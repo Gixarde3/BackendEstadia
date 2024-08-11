@@ -7,7 +7,7 @@ class Asignatura {
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM Asignatura WHERE id = ?', [id])
+        return db.query('SELECT * FROM Asignatura WHERE idAsignatura = ?', [id])
             .then(results => results[0]);
     }
 
@@ -17,12 +17,12 @@ class Asignatura {
     }
 
     static update(id, data) {
-        return db.query('UPDATE Asignatura SET ? WHERE id = ?', [data, id])
+        return db.query('UPDATE Asignatura SET ? WHERE idAsignatura = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM Asignatura WHERE id = ?', [id])
+        return db.query('DELETE FROM Asignatura WHERE idAsignatura = ?', [id])
             .then(() => ({ id }));
     }
 

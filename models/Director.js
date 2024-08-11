@@ -7,7 +7,7 @@ class Director {
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM Director WHERE id = ?', [id])
+        return db.query('SELECT * FROM Director WHERE idDirector = ?', [id])
             .then(results => results[0]);
     }
 
@@ -17,12 +17,12 @@ class Director {
     }
 
     static update(id, data) {
-        return db.query('UPDATE Director SET ? WHERE id = ?', [data, id])
+        return db.query('UPDATE Director SET ? WHERE idDirector = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM Director WHERE id = ?', [id])
+        return db.query('DELETE FROM Director WHERE idDirector = ?', [id])
             .then(() => ({ id }));
     }
 }

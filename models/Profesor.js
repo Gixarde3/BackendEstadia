@@ -7,7 +7,7 @@ class Profesor {
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM Profesor WHERE id = ?', [id])
+        return db.query('SELECT * FROM Profesor WHERE idProfesor = ?', [id])
             .then(results => results[0]);
     }
 
@@ -17,12 +17,12 @@ class Profesor {
     }
 
     static update(id, data) {
-        return db.query('UPDATE Profesor SET ? WHERE id = ?', [data, id])
+        return db.query('UPDATE Profesor SET ? WHERE idProfesor = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM Profesor WHERE id = ?', [id])
+        return db.query('DELETE FROM Profesor WHERE idProfesor = ?', [id])
             .then(() => ({ id }));
     }
 }
