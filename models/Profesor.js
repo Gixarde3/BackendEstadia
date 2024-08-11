@@ -25,6 +25,15 @@ class Profesor {
         return db.query('DELETE FROM Profesor WHERE idProfesor = ?', [id])
             .then(() => ({ id }));
     }
+
+    static findOne(where) {
+        return db.query('SELECT * FROM Profesor WHERE ?', where)
+            .then(results => results[0]);
+    }
+
+    static find(where) {
+        return db.query('SELECT * FROM Profesor WHERE ?', where);
+    }
 }
 
 module.exports = Profesor;

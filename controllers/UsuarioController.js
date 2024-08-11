@@ -71,10 +71,18 @@ class UsuarioController {
         }
     }
 
-    static async getByFilter(req, res) {
+    static async findOne(req, res) {
         try {
-            const { filter, value } = req.params;
-            const items = await models.Usuario.findByFiltro({ [filter]: value });
+            const item = await models.Usuario.findOne(req.body);
+            res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async find(req, res) {
+        try {
+            const items = await models.Usuario.find(req.body);
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });

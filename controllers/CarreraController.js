@@ -46,6 +46,23 @@ class CarreraController {
             res.status(500).send({ error: error.message });
         }
     }
+    static async findOne(req, res) {
+        try {
+            const item = await models.Carrera.findOne(req.body);
+            res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async find(req, res) {
+        try {
+            const items = await models.Carrera.find(req.body);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = CarreraController;

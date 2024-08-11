@@ -30,7 +30,7 @@ class ${modelName} {
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM ${modelName} WHERE id = ?', [id])
+        return db.query('SELECT * FROM ${modelName} WHERE id${modelName} = ?', [id])
             .then(results => results[0]);
     }
 
@@ -40,14 +40,21 @@ class ${modelName} {
     }
 
     static update(id, data) {
-        return db.query('UPDATE ${modelName} SET ? WHERE id = ?', [data, id])
+        return db.query('UPDATE ${modelName} SET ? WHERE id${modelName} = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM ${modelName} WHERE id = ?', [id])
+        return db.query('DELETE FROM ${modelName} WHERE id${modelName} = ?', [id])
             .then(() => ({ id }));
     }
+    static findOne(where) {
+        return db.query('SELECT * FROM ${modelName} WHERE ?', where)
+            .then(results => results[0]);
+    };
+    static find(where) {
+        return db.query('SELECT * FROM ${modelName} WHERE ?', where);
+    };
 }
 
 module.exports = ${modelName};
@@ -101,6 +108,24 @@ class ${modelName}Controller {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async findOne(req, res) {
+        try {
+            const item = await models.${modelName}.findOne(req.body);
+            res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async find(req, res) {
+        try {
+            const items = await models.${modelName}.find(req.body);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = ${modelName}Controller;
@@ -114,7 +139,8 @@ router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(1), ${modelName}Co
 router.post('/${modelName.toLowerCase()}', checkPrivileges(${privilegeLevel}), ${modelName}Controller.create);
 router.put('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.update);
 router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.delete);
-
+router.post('/${modelName.toLowerCase()}/find', checkPrivileges(${privilegeLevel}), ${modelName}Controller.findOne);
+router.post('/${modelName.toLowerCase()}s/findall', checkPrivileges(${privilegeLevel}), ${modelName}Controller.find);
 `;
 
 // Crea los archivos en los directorios correspondientes

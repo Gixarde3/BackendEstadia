@@ -46,6 +46,24 @@ class DirectorController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async findOne(req, res) {
+        try {
+            const item = await models.Director.findOne(req.body);
+            res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async find(req, res) {
+        try {
+            const items = await models.Director.find(req.body);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = DirectorController;

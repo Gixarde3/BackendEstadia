@@ -46,6 +46,24 @@ class RecuperacionController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async findOne(req, res) {
+        try {
+            const item = await models.Recuperacion.findOne(req.body);
+            res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async find(req, res) {
+        try {
+            const items = await models.Recuperacion.find(req.body);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = RecuperacionController;

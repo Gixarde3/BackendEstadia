@@ -30,6 +30,10 @@ class Recuperacion {
         return db.query('SELECT * FROM Recuperacion WHERE ?', where)
             .then(results => results[0]);
     }
+
+    static find(where) {
+        return db.query('SELECT * FROM Recuperacion WHERE ?', where);
+    }
 }
 
 module.exports = Recuperacion;

@@ -37,6 +37,15 @@ class Asignatura {
     static findByAlumno(id) {
         return db.query('SELECT * FROM Asignatura WHERE id IN (SELECT asignatura_id FROM AlumnoAsignatura WHERE alumno_id = ?)', [id]);
     }
+
+    static findOne(where) {
+        return db.query('SELECT * FROM Asignatura WHERE ?', where)
+            .then(results => results[0]);
+    }
+
+    static find(where) {
+        return db.query('SELECT * FROM Asignatura WHERE ?', where);
+    }
 }
 
 module.exports = Asignatura;

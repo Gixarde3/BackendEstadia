@@ -58,7 +58,8 @@ router.post('/usuario', /*checkPrivileges(3),*/ UsuarioController.create);
 router.put('/usuario/:id', checkPrivileges(3), UsuarioController.update);
 router.delete('/usuario/:id', checkPrivileges(3), UsuarioController.delete);
 router.post('/login', UsuarioController.login);
-router.get('/usuarios/:filter/:value', checkPrivileges(3), UsuarioController.getByFilter);
+router.post('/usuario/find', checkPrivileges(3), UsuarioController.findOne);
+router.post('/usuarios/findall', checkPrivileges(3), UsuarioController.find);
 router.post('/solicitar-cambio-contrasena', UsuarioController.solicitarCambioContrasena);
 router.post('/cambiar-contrasena', UsuarioController.cambiarContrasena);
 
@@ -69,6 +70,8 @@ router.get('/profesor/:id', checkPrivileges(1), ProfesorController.getById);
 router.post('/profesor', checkPrivileges(3), ProfesorController.create);
 router.put('/profesor/:id', checkPrivileges(3), ProfesorController.update);
 router.delete('/profesor/:id', checkPrivileges(3), ProfesorController.delete);
+router.post('/profesor/find', checkPrivileges(3), ProfesorController.findOne);
+router.post('/profesors/findall', checkPrivileges(3), ProfesorController.find);
 
 
 const { DirectorController } = require('../controllers');
@@ -78,6 +81,8 @@ router.get('/director/:id', checkPrivileges(1), DirectorController.getById);
 router.post('/director', checkPrivileges(3), DirectorController.create);
 router.put('/director/:id', checkPrivileges(3), DirectorController.update);
 router.delete('/director/:id', checkPrivileges(3), DirectorController.delete);
+router.post('/director/find', checkPrivileges(3), DirectorController.findOne);
+router.post('/directors/findall', checkPrivileges(3), DirectorController.find);
 
 //
 const { CarreraController } = require('../controllers');
@@ -87,6 +92,8 @@ router.get('/carrera/:id', checkPrivileges(1), CarreraController.getById);
 router.post('/carrera', checkPrivileges(3), CarreraController.create);
 router.put('/carrera/:id', checkPrivileges(3), CarreraController.update);
 router.delete('/carrera/:id', checkPrivileges(3), CarreraController.delete);
+router.post('/carrera/find', checkPrivileges(3), CarreraController.findOne);
+router.post('/carreras/findall', checkPrivileges(3), CarreraController.find);
 
 
 const { AsignaturaController } = require('../controllers');
@@ -96,14 +103,6 @@ router.get('/asignatura/:id', checkPrivileges(1), AsignaturaController.getById);
 router.post('/asignatura', checkPrivileges(3), AsignaturaController.create);
 router.put('/asignatura/:id', checkPrivileges(3), AsignaturaController.update);
 router.delete('/asignatura/:id', checkPrivileges(3), AsignaturaController.delete);
-
-
-
-const { RecuperacionController } = require('../controllers');
-
-router.get('/recuperacions', checkPrivileges(0), RecuperacionController.getAll);
-router.get('/recuperacion/:id', checkPrivileges(1), RecuperacionController.getById);
-router.post('/recuperacion', checkPrivileges(0), RecuperacionController.create);
-router.put('/recuperacion/:id', checkPrivileges(0), RecuperacionController.update);
-router.delete('/recuperacion/:id', checkPrivileges(0), RecuperacionController.delete);
+router.post('/asignatura/find', checkPrivileges(3), AsignaturaController.findOne);
+router.post('/asignaturas/findall', checkPrivileges(3), AsignaturaController.find);
 

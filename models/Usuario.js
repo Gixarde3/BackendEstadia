@@ -39,6 +39,15 @@ class Usuario {
         return db.query('SELECT * FROM Usuario WHERE clave_identificacion = ?', [identificador])
             .then(results => results[0]);
     }
+
+    static findOne(where) {
+        return db.query('SELECT * FROM Usuario WHERE ?', where)
+            .then(results => results[0]);
+    }
+
+    static find(where) {
+        return db.query('SELECT * FROM Usuario WHERE ?', where);
+    }
     static generateToken(identificador, token){
         let usuario = null;
         this.findByIdentificador(identificador).then((result) => {
