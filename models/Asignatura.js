@@ -25,6 +25,18 @@ class Asignatura {
         return db.query('DELETE FROM Asignatura WHERE id = ?', [id])
             .then(() => ({ id }));
     }
+
+    static findByCarrera(id) {
+        return db.query('SELECT * FROM Asignatura WHERE carrera_id = ?', [id]);
+    }
+
+    static findByProfesor(id) {
+        return db.query('SELECT * FROM Asignatura WHERE profesor_id = ?', [id]);
+    }
+
+    static findByAlumno(id) {
+        return db.query('SELECT * FROM Asignatura WHERE id IN (SELECT asignatura_id FROM AlumnoAsignatura WHERE alumno_id = ?)', [id]);
+    }
 }
 
 module.exports = Asignatura;

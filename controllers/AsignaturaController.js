@@ -46,6 +46,33 @@ class AsignaturaController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async getAsignaturasByCarrera(req, res) {
+        try {
+            const items = await models.Asignatura.findByCarrera(req.params.id);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async getAsignaturasByProfesor(req, res) {
+        try {
+            const items = await models.Asignatura.findByProfesor(req.params.id);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async getAsignaturasByAlumno(req, res) {
+        try {
+            const items = await models.Asignatura.findByAlumno(req.params.id);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = AsignaturaController;

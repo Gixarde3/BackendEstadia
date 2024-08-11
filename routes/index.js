@@ -7,6 +7,8 @@ function checkPrivileges(requiredPrivilege) {
     return (req, res, next) => {
         if (!req.session.user) {
             return res.status(401).send('Acceso no autorizado. Por favor inicia sesión.');
+        }else{
+            req.session.cookie.maxAge = 15 * 60 * 1000;
         }
         if (req.session.user.privilege < requiredPrivilege) {
             return res.status(403).send('Acceso denegado. No tienes los privilegios suficientes.');
@@ -86,9 +88,9 @@ router.delete('/carrera/:id', checkPrivileges(3), CarreraController.delete);
 
 const { AsignaturaController } = require('../controllers');
 
-router.get('/asignaturas', checkPrivileges(2), AsignaturaController.getAll);
+router.get('/asignaturas', checkPrivileges(3), AsignaturaController.getAll);
 router.get('/asignatura/:id', checkPrivileges(1), AsignaturaController.getById);
-router.post('/asignatura', checkPrivileges(2), AsignaturaController.create);
-router.put('/asignatura/:id', checkPrivileges(2), AsignaturaController.update);
-router.delete('/asignatura/:id', checkPrivileges(2), AsignaturaController.delete);
+router.post('/asignatura', checkPrivileges(3), AsignaturaController.create);
+router.put('/asignatura/:id', checkPrivileges(3), AsignaturaController.update);
+router.delete('/asignatura/:id', checkPrivileges(3), AsignaturaController.delete);
 

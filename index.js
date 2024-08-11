@@ -11,7 +11,11 @@ app.use(session({
     secret: 'WABARRABA2563!',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Cambia a true si usas HTTPS
+    cookie: { 
+        secure: false,
+        maxAge: 15 * 60 * 1000
+    } // Cambia a true si usas HTTPS
+
 }));
 
 
