@@ -13,3 +13,5 @@ const MailController = require('./MailController.js');
 module.exports.MailController = MailController;
 const RecuperacionController = require('./RecuperacionController.js');
 module.exports.RecuperacionController = RecuperacionController;
+const PlanEducativoController = require('./PlanEducativoController.js');
+module.exports.PlanEducativoController = PlanEducativoController;

@@ -11,3 +11,5 @@ const Asignatura = require('./Asignatura.js');
 module.exports.Asignatura = Asignatura;
 const Recuperacion = require('./Recuperacion.js');
 module.exports.Recuperacion = Recuperacion;
+const PlanEducativo = require('./PlanEducativo.js');
+module.exports.PlanEducativo = PlanEducativo;

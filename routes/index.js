@@ -106,3 +106,12 @@ router.delete('/asignatura/:id', checkPrivileges(3), AsignaturaController.delete
 router.post('/asignatura/find', checkPrivileges(3), AsignaturaController.findOne);
 router.post('/asignaturas/findall', checkPrivileges(3), AsignaturaController.find);
 
+const { PlanEducativoController } = require('../controllers');
+
+router.get('/planeducativos', checkPrivileges(3), PlanEducativoController.getAll);
+router.get('/planeducativo/:id', checkPrivileges(1), PlanEducativoController.getById);
+router.post('/planeducativo', checkPrivileges(3), PlanEducativoController.create);
+router.put('/planeducativo/:id', checkPrivileges(3), PlanEducativoController.update);
+router.delete('/planeducativo/:id', checkPrivileges(3), PlanEducativoController.delete);
+router.post('/planeducativo/find', checkPrivileges(3), PlanEducativoController.findOne);
+router.post('/planeducativos/findall', checkPrivileges(3), PlanEducativoController.find);
