@@ -5,6 +5,12 @@ const controllers = require('./index');
 const path = require('path');
 
 class UsuarioController {
+    /**
+     * Obtiene todos los registros de Usuario
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
+
     static async getAll(req, res) {
         try {
             const items = await models.Usuario.findAll();
@@ -14,6 +20,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Obtiene un registro de Usuario por su id
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async getById(req, res) {
         try {
             const item = await models.Usuario.findById(req.params.id);
@@ -23,6 +34,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Crea un registro de Usuario
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async create(req, res) {
         try {
             console.log(req.body);
@@ -35,6 +51,12 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Actualiza un registro de Usuario
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     * 
+     */
     static async update(req, res) {
         try {
             const item = await models.Usuario.update(req.params.id, req.body);
@@ -44,6 +66,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Elimina un registro de Usuario
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */ 
     static async delete(req, res) {
         try {
             const item = await models.Usuario.delete(req.params.id);
@@ -53,6 +80,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Inicia sesión
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */ 
     static async login(req, res) {
         try {
             const { clave_identificacion, password } = req.body;
@@ -71,6 +103,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Encuentra a un usuario de acuerdo a los parámetros enviados
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async findOne(req, res) {
         try {
             const item = await models.Usuario.findOne(req.body);
@@ -80,6 +117,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Encuentra a varios usuarios de acuerdo a los parámetros enviados
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async find(req, res) {
         try {
             const items = await models.Usuario.find(req.body);
@@ -89,6 +131,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Genera el token para un cambio de contraseña, lo guarda en la base de datos y envía un correo al usuario
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async solicitarCambioContrasena(req, res) {
         try {
 
@@ -203,6 +250,11 @@ class UsuarioController {
         }
     }
 
+    /**
+     * Cambia la contraseña de un usuario con base en un token
+     * @param {*} req Todos los parámetros que se envían en la petición
+     * @param {*} res Todos los parámetros que se envían en la respuesta
+     */
     static async cambiarContrasena(req, res){
         try{
             const {token, password} = req.body;

@@ -2,6 +2,11 @@
 const db = require('../database');
 
 class Usuario {
+
+    /**
+     * 
+     * @returns {Promise<Array>} Arreglo de todos los usuario
+     */
     static findAll() {
         return db.query('SELECT * FROM Usuario');
     }
