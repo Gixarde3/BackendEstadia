@@ -30,8 +30,18 @@ class PlanEducativo {
             .then(results => results[0]);
     };
     static find(where) {
-        return db.query('SELECT * FROM PlanEducativo WHERE ?', where);
-    };
+        // Asumimos que 'where' es un objeto con clave-valor
+        const keys = Object.keys(where);
+        const values = keys.map(key => `${key} LIKE ?`);
+        
+        // Crear la consulta SQL con LIKE
+        const sql = `SELECT * FROM PlanEducativo WHERE ${values.join(' AND ')}`;
+        
+        // Agregar los valores con los comodines %
+        const params = keys.map(key => `%${where[key]}%`);
+        
+        return db.query(sql, params);
+    }    
 }
 
 module.exports = PlanEducativo;

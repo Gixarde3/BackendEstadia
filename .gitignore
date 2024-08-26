@@ -19,3 +19,7 @@ photos/*.tiff
 photos/*.webp
 photos/*.svg
 photos/*.ico
+
+
+# Ignore sessions
+sessions/

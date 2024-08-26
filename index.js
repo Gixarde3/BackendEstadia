@@ -5,17 +5,22 @@ const path = require('path');
 var multipart = require('connect-multiparty');
 const app = express();
 const session = require('express-session');
-// Set up middleware
+const FileStore = require('session-file-store')(session);
 
 app.use(session({
     secret: 'WABARRABA2563!',
     resave: false,
     saveUninitialized: false,
+    store: new FileStore({
+        path: './sessions',
+        ttl: 24 * 60 * 60,
+        retries: 0
+    }),
     cookie: { 
-        secure: false,
-        maxAge: 15 * 60 * 1000
-    } // Cambia a true si usas HTTPS
-
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000,
+        path: '/' 
+    }
 }));
 
 

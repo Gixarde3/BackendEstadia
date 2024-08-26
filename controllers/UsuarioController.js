@@ -41,7 +41,6 @@ class UsuarioController {
      */
     static async create(req, res) {
         try {
-            console.log(req.body);
             const password = bcrypt.hashSync(req.body.password, 10);
             req.body.password = password;
             const item = await models.Usuario.create(req.body);

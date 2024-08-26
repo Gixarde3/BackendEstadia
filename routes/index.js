@@ -5,10 +5,10 @@ const router = express.Router();
 // Middleware para verificar privilegios
 function checkPrivileges(requiredPrivilege) {
     return (req, res, next) => {
+        console.log(req.session);
+        console.log(req.sessionID)
         if (!req.session.user) {
             return res.status(401).send('Acceso no autorizado. Por favor inicia sesión.');
-        }else{
-            req.session.cookie.maxAge = 15 * 60 * 1000;
         }
         if (req.session.user.privilege < requiredPrivilege) {
             return res.status(403).send('Acceso denegado. No tienes los privilegios suficientes.');
