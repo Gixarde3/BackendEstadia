@@ -3,15 +3,16 @@ const path = require('path');
 
 // Obtén el nombre del modelo y el nivel de privilegio del argumento de la consola
 const modelName = process.argv[2];
-const privilegeLevel = process.argv[3];
+
+const privilegeLevel = process.argv.slice(3);
 
 if (!modelName) {
     console.error('Por favor, proporciona un nombre para el modelo.');
     process.exit(1);
 }
 
-if (!privilegeLevel) {
-    console.error('Por favor, proporciona un nivel de privilegio para las rutas.');
+if (privilegeLevel.length === 0) {
+    console.error('Por favor, proporciona al menos un nivel de privilegio para las rutas.');
     process.exit(1);
 }
 
@@ -147,7 +148,7 @@ const routesTemplate = `
 const { ${modelName}Controller } = require('../controllers');
 
 router.get('/${modelName.toLowerCase()}s', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.getAll);
-router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(1), ${modelName}Controller.getById);
+router.get('/${modelName.toLowerCase()}/:id', checkPrivileges([1]), ${modelName}Controller.getById);
 router.post('/${modelName.toLowerCase()}', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.create);
 router.put('/${modelName.toLowerCase()}/:id', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.update);
 router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.delete);
