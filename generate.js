@@ -146,13 +146,13 @@ module.exports = ${modelName}Controller;
 const routesTemplate = `
 const { ${modelName}Controller } = require('../controllers');
 
-router.get('/${modelName.toLowerCase()}s', checkPrivileges(${privilegeLevel}), ${modelName}Controller.getAll);
+router.get('/${modelName.toLowerCase()}s', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.getAll);
 router.get('/${modelName.toLowerCase()}/:id', checkPrivileges(1), ${modelName}Controller.getById);
-router.post('/${modelName.toLowerCase()}', checkPrivileges(${privilegeLevel}), ${modelName}Controller.create);
-router.put('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.update);
-router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges(${privilegeLevel}), ${modelName}Controller.delete);
-router.post('/${modelName.toLowerCase()}/find', checkPrivileges(${privilegeLevel}), ${modelName}Controller.findOne);
-router.post('/${modelName.toLowerCase()}s/findall', checkPrivileges(${privilegeLevel}), ${modelName}Controller.find);
+router.post('/${modelName.toLowerCase()}', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.create);
+router.put('/${modelName.toLowerCase()}/:id', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.update);
+router.delete('/${modelName.toLowerCase()}/:id', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.delete);
+router.post('/${modelName.toLowerCase()}/find', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.findOne);
+router.post('/${modelName.toLowerCase()}s/findall', checkPrivileges([${privilegeLevel}]), ${modelName}Controller.find);
 `;
 
 // Crea los archivos en los directorios correspondientes
