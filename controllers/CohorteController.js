@@ -1,13 +1,10 @@
-// controllers/GrupoController.js
+// controllers/CohorteController.js
 const models = require('../models');
-const functions = require('../helpers/functions');
 
-class GrupoController {
-    
-
+class CohorteController {
     static async getAll(req, res) {
         try {
-            const items = await models.Grupo.findAll();
+            const items = await models.Cohorte.findAll();
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -16,7 +13,7 @@ class GrupoController {
 
     static async getById(req, res) {
         try {
-            const item = await models.Grupo.findById(req.params.id);
+            const item = await models.Cohorte.findById(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -25,13 +22,8 @@ class GrupoController {
 
     static async create(req, res) {
         try {
-            const cantidad = req.body.cantidad;
-            const letraInicial = req.body.letra_inicial;
-            const items = [];
-            for (let i = 0; i < cantidad; i++) {
-                items.push(await models.Grupo.create({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte }));
-            }
-            res.send(items);
+            const item = await models.Cohorte.create(req.body);
+            res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
         }
@@ -39,7 +31,7 @@ class GrupoController {
 
     static async update(req, res) {
         try {
-            const item = await models.Grupo.update(req.params.id, req.body);
+            const item = await models.Cohorte.update(req.params.id, req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -48,7 +40,7 @@ class GrupoController {
 
     static async delete(req, res) {
         try {
-            const item = await models.Grupo.delete(req.params.id);
+            const item = await models.Cohorte.delete(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -57,7 +49,7 @@ class GrupoController {
 
     static async findOne(req, res) {
         try {
-            const item = await models.Grupo.findOne(req.body);
+            const item = await models.Cohorte.findOne(req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -66,7 +58,7 @@ class GrupoController {
 
     static async find(req, res) {
         try {
-            const items = await models.Grupo.find(req.body);
+            const items = await models.Cohorte.find(req.body);
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -74,4 +66,4 @@ class GrupoController {
     }
 }
 
-module.exports = GrupoController;
+module.exports = CohorteController;

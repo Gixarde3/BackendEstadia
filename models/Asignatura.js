@@ -12,6 +12,7 @@ class Asignatura {
     }
 
     static create(data) {
+        console.log(data)
         return db.query('INSERT INTO Asignatura SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
     }

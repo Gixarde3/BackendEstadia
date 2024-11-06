@@ -24,7 +24,7 @@ app.use(session({
 }));
 
 
-var multipartMiddleware = multipart({uploadDir: path.join(__dirname, 'photos')});
+var multipartMiddleware = multipart({uploadDir: path.join(__dirname, 'excel')});
 app.use(multipartMiddleware);
 app.use(express.json());
 

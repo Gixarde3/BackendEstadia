@@ -1,33 +1,33 @@
-// models/IndicadorEvaluacion.js
+// models/Cohorte.js
 const db = require('../database');
 
-class IndicadorEvaluacion {
+class Cohorte {
     static findAll() {
-        return db.query('SELECT * FROM IndicadorEvaluacion');
+        return db.query('SELECT * FROM Cohorte');
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM IndicadorEvaluacion WHERE idIndicadorEvaluacion = ?', [id])
+        return db.query('SELECT * FROM Cohorte WHERE idCohorte = ?', [id])
             .then(results => results[0]);
     }
 
     static create(data) {
-        return db.query('INSERT INTO IndicadorEvaluacion SET ?', data)
+        return db.query('INSERT INTO Cohorte SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
     }
 
     static update(id, data) {
-        return db.query('UPDATE IndicadorEvaluacion SET ? WHERE idIndicadorEvaluacion = ?', [data, id])
+        return db.query('UPDATE Cohorte SET ? WHERE idCohorte = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM IndicadorEvaluacion WHERE idIndicadorEvaluacion = ?', [id])
+        return db.query('DELETE FROM Cohorte WHERE idCohorte = ?', [id])
             .then(() => ({ id }));
     }
 
     static findOne(where) {
-        return db.query('SELECT * FROM IndicadorEvaluacion WHERE ?', where)
+        return db.query('SELECT * FROM Cohorte WHERE ?', where)
             .then(results => results[0]);
     }
 
@@ -37,7 +37,7 @@ class IndicadorEvaluacion {
         const values = keys.map(key => `${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM IndicadorEvaluacion WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT * FROM Cohorte WHERE ${values.join(' AND ')}`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
@@ -46,4 +46,4 @@ class IndicadorEvaluacion {
     }
 }
 
-module.exports = IndicadorEvaluacion;
+module.exports = Cohorte;

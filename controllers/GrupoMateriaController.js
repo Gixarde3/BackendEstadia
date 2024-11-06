@@ -1,10 +1,10 @@
-// controllers/IndicadorEvaluacionController.js
+// controllers/GrupoMateriaController.js
 const models = require('../models');
 
-class IndicadorEvaluacionController {
+class GrupoMateriaController {
     static async getAll(req, res) {
         try {
-            const items = await models.IndicadorEvaluacion.findAll();
+            const items = await models.GrupoMateria.findAll();
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -13,7 +13,7 @@ class IndicadorEvaluacionController {
 
     static async getById(req, res) {
         try {
-            const item = await models.IndicadorEvaluacion.findById(req.params.id);
+            const item = await models.GrupoMateria.findById(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -22,7 +22,7 @@ class IndicadorEvaluacionController {
 
     static async create(req, res) {
         try {
-            const item = await models.IndicadorEvaluacion.create(req.body);
+            const item = await models.GrupoMateria.create(req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -31,7 +31,7 @@ class IndicadorEvaluacionController {
 
     static async update(req, res) {
         try {
-            const item = await models.IndicadorEvaluacion.update(req.params.id, req.body);
+            const item = await models.GrupoMateria.update(req.params.id, req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -40,7 +40,7 @@ class IndicadorEvaluacionController {
 
     static async delete(req, res) {
         try {
-            const item = await models.IndicadorEvaluacion.delete(req.params.id);
+            const item = await models.GrupoMateria.delete(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -49,7 +49,7 @@ class IndicadorEvaluacionController {
 
     static async findOne(req, res) {
         try {
-            const item = await models.IndicadorEvaluacion.findOne(req.body);
+            const item = await models.GrupoMateria.findOne(req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -58,7 +58,7 @@ class IndicadorEvaluacionController {
 
     static async find(req, res) {
         try {
-            const items = await models.IndicadorEvaluacion.find(req.body);
+            const items = await models.GrupoMateria.find(req.body);
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -66,4 +66,4 @@ class IndicadorEvaluacionController {
     }
 }
 
-module.exports = IndicadorEvaluacionController;
+module.exports = GrupoMateriaController;
