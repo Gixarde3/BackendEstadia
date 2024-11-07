@@ -1,6 +1,8 @@
 // controllers/AlumnoController.js
 const models = require('../models');
 const ExcelJS = require('exceljs');
+const controllers = require('../controllers');
+const path = require('path');
 const fs = require('fs');
 
 class AlumnoController {
@@ -108,11 +110,104 @@ class AlumnoController {
             
             // Crear los usuarios en la base de datos con los datos del archivo
             const alumnos = [];
+            const tos = [];
+            const mails = [];
             for (const item of items) {
                 if(item["Nombre Alumno"] == null){
                     continue;
                 }
-                const usuario = await models.Usuario.create({nombre: item["Nombre Alumno"], apellido_paterno: item["Paterno Alumno"], apellido_materno: item["Materno Alumno"], email_personal: item["Matrícula"] + "@upemor.edu.mx", clave_identificacion: item["Matrícula"], password: "PASSWORDNOACCESIBLE", privilege: 1});
+                let usuario = await models.Usuario.findOne({clave_identificacion: item["Matrícula"]});
+                
+                if(usuario == null){
+                    usuario = await models.Usuario.create({nombre: item["Nombre Alumno"], apellido_paterno: item["Paterno Alumno"], apellido_materno: item["Materno Alumno"], email_personal: item["Matrícula"] + "@upemor.edu.mx", clave_identificacion: item["Matrícula"], password: "PASSWORDNOACCESIBLE", privilege: 1});
+                    const token = Math.random().toString(36).substring(2, 30) + Math.random().toString(36).substring(2, 30 ) + Math.random().toString(36).substring(2, 30) + Math.random().toString(36).substring(2, 30);
+                    await models.Usuario.generateToken(item["Matrícula"], token);
+                    tos.push(item["Matrícula"] + "@upemor.edu.mx"); 
+                    mails.push(`
+                        <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>Usuario registrado con éxito</title>
+                                <link rel="preconnect" href="https://fonts.googleapis.com">
+                                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+                                <style>
+                                    :root{
+                                        --principal: #592c80;
+                                    }
+                                    *{
+                                        font-family: 'Open Sans', sans-serif;
+                                        box-sizing: border-box;
+                                    }
+                                    main{
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        padding: 1rem;
+                                    }
+                                    h1{
+                                        margin: 0;
+                                        font-size: 32px;
+                                        text-align: center;
+                                    }
+                                    p{
+                                        margin:0;
+                                        font-family: "Open Sans";
+                                        font-size: 16px;
+                                        line-height: 1.57143;
+                                        text-align: center;
+                                        width: 100%;
+                                    }
+                                    a{
+                                        text-decoration: none;
+                                        color: white;
+                                    }
+                                    .accept{
+                                        background-color: #592c80;
+                                        color: #fff !important;
+                                        font-size: 1rem;
+                                        font-weight: bold;
+                                        padding: 10px 20px;
+                                        letter-spacing: 2px;
+                                        cursor: pointer;
+                                        transition: all 0.3s;
+                                    }
+                                    .accept:hover{
+                                        scale: 1.01;
+                                    }
+                                    .accept:active{
+                                        scale: 0.99;
+                                    }
+                                    .aclaracion{
+                                        font-size: 12px;
+                                        color: #8c8c8c;
+                                    }
+                                    img{
+                                        max-width: 100%;
+                                        width: 200px;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <main>
+                                    <!-- TODO Mail respuesta enviada -->
+                                    <div style="text-align: center; padding: 20px;">
+                                        <img src="cid:logoUpemor" alt="Logo de la UPEMOR" style="max-width: 60%;">
+                                    </div>
+                                    <h1 style="text-align: center; color: #F50003;">Un administrador te ha registrado al sistema, por favor, genera una contraseña</h1>
+                                    <div style="text-align: center; padding: 20px; width: 100%">
+                                        <a href="http://localhost:5173/cambiar-contrasena/${token}" class="accept">Generar contraseña</a>
+                                    </div>
+                                    <p class="aclaracion">Si no funciona, copia y pega el siguiente enlace en tu navegador: <a href="http://localhost:5173/cambiar-contrasena/${token}">http://localhost:5173/cambiar-contrasena/${token}</a></p>
+                                </main> 
+                            </body>
+                            </html>
+                        `
+                    );
+                }
                 if(usuario == null){
                     throw new Error("No se pudo crear el usuario: " + item["Matrícula"]);
                 }
@@ -127,6 +222,13 @@ class AlumnoController {
                 const alumno = await models.Alumno.create({idUsuario: usuario.idUsuario, idGrupo: grupo.idGrupo, idCarrera: planEducativo.idCarrera, idCohorte: req.body.idCohorte});
                 alumnos.push(alumno);
             }
+            controllers.MailController.sendMails(tos, "¡Felicidades! Un administrador te registró", mails, [
+                {
+                    filename: 'logo.jpg',
+                    path: path.join(__dirname, '../img/logo.jpg'),
+                    cid: 'logoUpemor' // ID del archivo
+                }
+            ]);
             res.send(alumnos);
         }
         catch (error) {
