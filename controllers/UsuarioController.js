@@ -41,11 +41,10 @@ class UsuarioController {
      */
     static async create(req, res) {
         try {
-            const password = bcrypt.hashSync(req.body.password, 10);
-            
-        console.log(emailNotificacion);
+            const password = bcrypt.hashSync(req.body.password, 10);            
             req.body.password = password;
             const item = await models.Usuario.create(req.body);
+            UsuarioController.sendEmailCreation(item.email_personal, item.clave_identificacion);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
