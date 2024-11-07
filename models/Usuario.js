@@ -32,7 +32,7 @@ class Usuario {
             return usuarios[0];
         }
         return db.query('INSERT INTO Usuario SET ?', data)
-        .then(result => ({ id: result.insertId, ...data }));
+        .then(result => ({ idUsuario: result.insertId, ...data }));
     }
 
     /**

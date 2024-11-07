@@ -63,7 +63,7 @@ const { AlumnoController } = require('../controllers');
 
 router.get('/alumnos', checkPrivileges([3]), AlumnoController.getAll);
 router.get('/alumno/:id', checkPrivileges([3]), AlumnoController.getById);
-router.post('/alumno', checkPrivileges([3]), AlumnoController.createMany);
+router.post('/alumno', /*checkPrivileges([3]),*/ AlumnoController.createMany);
 router.put('/alumno/:id', checkPrivileges([3]), AlumnoController.update);
 router.delete('/alumno/:id', checkPrivileges([3]), AlumnoController.delete);
 router.post('/alumno/find', checkPrivileges([2,3]), AlumnoController.findOne);

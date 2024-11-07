@@ -77,7 +77,7 @@ class AlumnoController {
                     idGrupo: req.body.idGrupo,
                     idCarrera: req.body.idCarrera
                 }
-                await this.create(req, res);
+                await AlumnoController.create(req, res);
             }
 
             // Crear una nueva instancia de ExcelJS Workbook
@@ -89,10 +89,10 @@ class AlumnoController {
             const data = [];
 
             worksheet.eachRow((row, rowNumber) => {
-                data.push(row.values); // Guarda cada fila en el array `data`
+                data.push(row.values);
             });
 
-            const firstRow = data.shift(); // Elimina la primera fila (cabecera)
+            const firstRow = data.shift();
 
             // Convierte los datos a un objeto donde las claves son la primera fila
             const items = data.map(row => {
@@ -109,7 +109,13 @@ class AlumnoController {
             // Crear los usuarios en la base de datos con los datos del archivo
             const alumnos = [];
             for (const item of items) {
+                if(item["Nombre Alumno"] == null){
+                    continue;
+                }
                 const usuario = await models.Usuario.create({nombre: item["Nombre Alumno"], apellido_paterno: item["Paterno Alumno"], apellido_materno: item["Materno Alumno"], email_personal: item["Matrícula"] + "@upemor.edu.mx", clave_identificacion: item["Matrícula"], password: "PASSWORDNOACCESIBLE", privilege: 1});
+                if(usuario == null){
+                    throw new Error("No se pudo crear el usuario: " + item["Matrícula"]);
+                }
                 const grupo = await models.Grupo.findOne({letra: item["Letra"], idCohorte: req.body.idCohorte});
                 if(grupo == null){
                     throw new Error("No existe ningún grupo con la letra " + item["Letra"] + " en esta cohorte");
@@ -124,6 +130,7 @@ class AlumnoController {
             res.send(alumnos);
         }
         catch (error) {
+            console.log(error);
             res.status(500).send({ error: error.message });
         }
     }
