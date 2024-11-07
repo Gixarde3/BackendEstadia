@@ -11,7 +11,11 @@ class Alumno {
             .then(results => results[0]);
     }
 
-    static create(data) {
+    static async create(data) {
+        const alumnos = await db.query('SELECT * FROM Alumno WHERE idUsuario = ?', [data.idUsuario]);
+        if (alumnos.length > 0) {
+            return alumnos[0];
+        }
         return db.query('INSERT INTO Alumno SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
     }
@@ -34,10 +38,10 @@ class Alumno {
     static find(where) {
         // Asumimos que 'where' es un objeto con clave-valor
         const keys = Object.keys(where);
-        const values = keys.map(key => `${key} LIKE ?`);
+        const values = keys.map(key => `Usuario.${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM Alumno WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT Alumno.*, Usuario.* FROM Alumno INNER JOIN Usuario ON Usuario.idUsuario = Alumno.idUsuario WHERE ${values.join(' AND ')}`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);

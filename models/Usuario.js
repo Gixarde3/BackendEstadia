@@ -26,9 +26,13 @@ class Usuario {
      * @returns el id del usuario ingresado, y la información agregada
      */
 
-    static create(data) {
+    static async create(data) {
+        const usuarios = await db.query('SELECT * FROM Usuario WHERE clave_identificacion = ?', [data.clave_identificacion])
+        if (usuarios.length > 0) {
+            return usuarios[0];
+        }
         return db.query('INSERT INTO Usuario SET ?', data)
-            .then(result => ({ id: result.insertId, ...data }));
+        .then(result => ({ id: result.insertId, ...data }));
     }
 
     /**
@@ -94,6 +98,7 @@ class Usuario {
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
         
+        console.log(sql, where);
         return db.query(sql, params);
     }    
 

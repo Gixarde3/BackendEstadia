@@ -123,6 +123,7 @@ class UsuarioController {
      */
     static async find(req, res) {
         try {
+            console.log(req.body);
             const items = await models.Usuario.find(req.body);
             res.send(items);
         } catch (error) {
@@ -234,9 +235,9 @@ class UsuarioController {
             `,
             [
                 {
-                filename: 'logo.jpg',
-                path: path.join(__dirname, '../img/logo.jpg'),
-                cid: 'logoUpemor' // ID del archivo
+                    filename: 'logo.jpg',
+                    path: path.join(__dirname, '../img/logo.jpg'),
+                    cid: 'logoUpemor' // ID del archivo
                 }
             ]
         );
