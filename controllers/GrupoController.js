@@ -48,6 +48,14 @@ class GrupoController {
 
     static async delete(req, res) {
         try {
+            const idReemplazo = req.params.idReemplazo;
+            if(!idReemplazo) {
+                throw new Error('El id de reemplazo es requerido');
+            }
+            if(idReemplazo === req.params.id) {
+                throw new Error('El id de reemplazo no puede ser igual al id del grupo a eliminar');
+            }
+            await models.Alumno.updateGroupIdAlumnos(req.params.id, idReemplazo);
             const item = await models.Grupo.delete(req.params.id);
             res.send(item);
         } catch (error) {

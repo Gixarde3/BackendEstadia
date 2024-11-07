@@ -150,7 +150,7 @@ router.get('/grupos', checkPrivileges([3]), GrupoController.getAll);
 router.get('/grupo/:id', checkPrivileges([1,2,3]), GrupoController.getById);
 router.post('/grupo', checkPrivileges([3]), GrupoController.create);
 router.put('/grupo/:id', checkPrivileges([3]), GrupoController.update);
-router.delete('/grupo/:id', checkPrivileges([3]), GrupoController.delete);
+router.delete('/grupo/:id/:idReemplazo', checkPrivileges([3]), GrupoController.delete);
 router.post('/grupo/find', checkPrivileges([3]), GrupoController.findOne);
 router.post('/grupos/findall', checkPrivileges([3]), GrupoController.find);
 

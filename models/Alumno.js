@@ -48,6 +48,11 @@ class Alumno {
         
         return db.query(sql, params);
     }
+
+    static updateGroupIdAlumnos(idGrupoOriginal, idGrupoNuevo) {
+        return db.query('UPDATE Alumno SET idGrupo = ? WHERE idGrupo = ?', [idGrupoNuevo, idGrupoOriginal])
+            .then(() => ({ idGrupoOriginal, idGrupoNuevo }));
+    }
 }
 
 module.exports = Alumno;
