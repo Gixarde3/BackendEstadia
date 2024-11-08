@@ -34,7 +34,6 @@ class GrupoController {
             }
             for (let i = 0; i < cantidad; i++) {
                 const existente = await models.Grupo.find({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte })
-                console.log(existente);
                 if(existente){
                     continue;
                 }
