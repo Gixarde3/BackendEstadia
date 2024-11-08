@@ -12,7 +12,7 @@ class Cohorte {
     }
 
     static create(data) {
-        console.log('INSERT INTO Cohorte SET ?', JSON.stringify(data));
+        
 
         return db.query('INSERT INTO Cohorte SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));

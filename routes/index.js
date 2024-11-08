@@ -111,6 +111,7 @@ router.put('/asignatura/:id', checkPrivileges([3]), AsignaturaController.update)
 router.delete('/asignatura/:id', checkPrivileges([3]), AsignaturaController.delete);
 router.post('/asignatura/find', checkPrivileges([3]), AsignaturaController.findOne);
 router.post('/asignaturas/findall', checkPrivileges([3]), AsignaturaController.find);
+router.get('/asignaturas/findbyusuario/:idUsuario', checkPrivileges([1,2,3]), AsignaturaController.getByUsuario);
 
 const { PlanEducativoController } = require('../controllers');
 
@@ -159,7 +160,7 @@ const { EvidenciaController } = require('../controllers');
 
 router.get('/evidencias', checkPrivileges([2,3]), EvidenciaController.getAll);
 router.get('/evidencia/:id', checkPrivileges([1,2,3]), EvidenciaController.getById);
-router.post('/evidencia', checkPrivileges([2,3]), EvidenciaController.create);
+router.post('/evidencia', /*checkPrivileges([2,3]),*/ EvidenciaController.create);
 router.put('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.update);
 router.delete('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.delete);
 router.post('/evidencia/find', checkPrivileges([2,3]), EvidenciaController.findOne);
@@ -197,6 +198,7 @@ router.put('/grupomateria/:id', checkPrivileges([3]), GrupoMateriaController.upd
 router.delete('/grupomateria/:id', checkPrivileges([3]), GrupoMateriaController.delete);
 router.post('/grupomateria/find', checkPrivileges([3]), GrupoMateriaController.findOne);
 router.post('/grupomaterias/findall', checkPrivileges([3]), GrupoMateriaController.find);
+router.get('/grupomateria/:id/proximas-entregas', checkPrivileges([1,2,3]), GrupoMateriaController.getProximasEntregas);
 
 const { CohorteController } = require('../controllers');
 

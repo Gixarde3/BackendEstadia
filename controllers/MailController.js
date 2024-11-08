@@ -42,7 +42,7 @@ class MailController {
         });
         const fallos = []
         for(const to of tos){
-            console.log('to', to);
+            
             const mail = {
                 from: process.env.SMTP_USER,
                 to: to,
@@ -63,9 +63,9 @@ class MailController {
                     }
                     transporter.sendMail(mailFallo, (err, info) => {
                         if (err) {
-                            console.log("Fallo al enviar correo a", fallos[0].to);
+                            
                         } else {
-                            console.log("Correo reintado: ", fallos[0].to);
+                            
                             fallos.shift()
                         }
                     });

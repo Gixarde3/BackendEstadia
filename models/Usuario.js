@@ -98,7 +98,7 @@ class Usuario {
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
         
-        console.log(sql, where);
+        
         return db.query(sql, params);
     }    
 

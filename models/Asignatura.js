@@ -12,7 +12,7 @@ class Asignatura {
     }
 
     static create(data) {
-        console.log(data)
+        
         return db.query('INSERT INTO Asignatura SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
     }
@@ -28,15 +28,41 @@ class Asignatura {
     }
 
     static findByCarrera(id) {
-        return db.query('SELECT * FROM Asignatura WHERE carrera_id = ?', [id]);
+        return db.query(`
+            SELECT GrupoMateria.idGrupoMateria, Asignatura.*, Grupo.letra, CONCAT(Usuario.nombre, ' ', Usuario.apellido_paterno, ' ', Usuario.apellido_materno) AS nombreProfesor
+            FROM GrupoMateria 
+            INNER JOIN Profesor ON Profesor.idProfesor = GrupoMateria.idProfesor
+            INNER JOIN Grupo ON Grupo.idGrupo = GrupoMateria.idGrupo
+            INNER JOIN Usuario ON Usuario.idUsuario = Profesor.idUsuario
+            INNER JOIN Asignatura ON Asignatura.idAsignatura = GrupoMateria.idAsignatura
+            INNER JOIN PlanEducativo ON PlanEducativo.idPlanEducativo = Asignatura.idPlanEducativo
+            INNER JOIN Carrera ON Carrera.idCarrera = PlanEducativo.idCarrera
+            INNER JOIN Director ON Director.idDirector = Carrera.idDirector
+            WHERE Director.idUsuario = ?`, [id]);
     }
 
     static findByProfesor(id) {
-        return db.query('SELECT * FROM Asignatura WHERE profesor_id = ?', [id]);
+        return db.query(`
+            SELECT GrupoMateria.idGrupoMateria, Asignatura.*, Grupo.letra, CONCAT(Usuario.nombre, ' ', Usuario.apellido_paterno, ' ', Usuario.apellido_materno) AS nombreProfesor
+            FROM GrupoMateria 
+            INNER JOIN Asignatura ON Asignatura.idAsignatura = GrupoMateria.idAsignatura
+            INNER JOIN Grupo ON Grupo.idGrupo = GrupoMateria.idGrupo
+            INNER JOIN Profesor ON Profesor.idProfesor = GrupoMateria.idProfesor
+            INNER JOIN Usuario ON Usuario.idUsuario = Profesor.idUsuario
+            WHERE Profesor.idUsuario = ?`, [id]);
     }
 
     static findByAlumno(id) {
-        return db.query('SELECT * FROM Asignatura WHERE id IN (SELECT asignatura_id FROM AlumnoAsignatura WHERE alumno_id = ?)', [id]);
+        return db.query(`
+            SELECT GrupoMateria.idGrupoMateria, Asignatura.*, Grupo.letra, CONCAT(Usuario.nombre, ' ', Usuario.apellido_paterno, ' ', Usuario.apellido_materno) AS nombreProfesor
+            FROM GrupoMateria 
+            INNER JOIN Asignatura ON Asignatura.idAsignatura = GrupoMateria.idAsignatura
+            INNER JOIN Grupo ON Grupo.idGrupo = GrupoMateria.idGrupo
+            INNER JOIN Profesor ON Profesor.idProfesor = GrupoMateria.idProfesor
+            INNER JOIN Usuario ON Usuario.idUsuario = Profesor.idUsuario
+            INNER JOIN AlumnoAsignatura ON GrupoMateria.idGrupoMateria = AlumnoAsignatura.idGrupoMateria
+            INNER JOIN Alumno ON Alumno.idAlumno = AlumnoAsignatura.idAlumno
+            WHERE Alumno.idUsuario = ?`, [id]);
     }
 
     static findOne(where) {

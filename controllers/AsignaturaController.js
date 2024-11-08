@@ -91,6 +91,26 @@ class AsignaturaController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async getByUsuario(req, res) {
+        try {
+            const usuario = await models.Usuario.findById(req.params.idUsuario);
+            if (!usuario) {
+                throw new Error('El usuario no existe');
+            }
+            let items = [];
+            if (usuario.privilege === 2) {
+                items = await models.Asignatura.findByProfesor(usuario.idUsuario);
+            } else if (usuario.privilege === 1) {
+                items = await models.Asignatura.findByAlumno(usuario.idUsuario);
+            } else if (usuario.privilege === 3) {
+                items = await models.Asignatura.findByCarrera(usuario.idUsuario);
+            }
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = AsignaturaController;

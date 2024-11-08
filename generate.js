@@ -161,7 +161,7 @@ fs.writeFile(path.join(__dirname, 'models', modelFileName), modelTemplate, (err)
     if (err) {
         console.error('Error al crear el archivo del modelo:', err);
     } else {
-        console.log(`Archivo de modelo creado: models/${modelFileName}`);
+        
     }
 });
 
@@ -169,7 +169,7 @@ fs.writeFile(path.join(__dirname, 'controllers', controllerFileName), controller
     if (err) {
         console.error('Error al crear el archivo del controlador:', err);
     } else {
-        console.log(`Archivo de controlador creado: controllers/${controllerFileName}`);
+        
     }
 });
 
@@ -184,7 +184,7 @@ fs.readFile(modelsIndexPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error al actualizar el índice de models:', err);
             } else {
-                console.log('Índice de models actualizado.');
+                
             }
         });
     }
@@ -201,7 +201,7 @@ fs.readFile(controllersIndexPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error al actualizar el índice de controllers:', err);
             } else {
-                console.log('Índice de controllers actualizado.');
+                
             }
         });
     }
@@ -218,7 +218,7 @@ fs.readFile(routesIndexPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error al actualizar el índice de rutas:', err);
             } else {
-                console.log('Índice de rutas actualizado.');
+                
             }
         });
     }

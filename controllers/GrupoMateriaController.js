@@ -64,6 +64,15 @@ class GrupoMateriaController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async getProximasEntregas(req, res) {
+        try{
+            const items = await models.Evidencia.findCercaDeEntregar(req.params.id);
+            res.send(items);
+        }catch(error){
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = GrupoMateriaController;

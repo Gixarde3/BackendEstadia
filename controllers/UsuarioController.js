@@ -221,7 +221,7 @@ class UsuarioController {
      */
     static async find(req, res) {
         try {
-            console.log(req.body);
+            
             const items = await models.Usuario.find(req.body);
             res.send(items);
         } catch (error) {
@@ -245,7 +245,7 @@ class UsuarioController {
             const email = user.email_personal;
             const token = Math.random().toString(36).substring(2, 30) + Math.random().toString(36).substring(2, 30 ) + Math.random().toString(36).substring(2, 30) + Math.random().toString(36).substring(2, 30);
             await models.Usuario.generateToken(identificador, token);
-            console.log(path.join(__dirname, '../img/logo.webp'));
+            
             // Enviar correo
             try{
             const mailSent = await controllers.MailController.sendMail(email, "Solicitud de recuperación de contraseña", `

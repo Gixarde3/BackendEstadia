@@ -37,6 +37,10 @@ class AlumnoController {
     static async addToAsignaturas(idGrupo, idAlumno) {
         const gruposMaterias = await models.GrupoMateria.findByGrupo(idGrupo);
         for (const grupoMateria of gruposMaterias) {
+            const AlumnoAsignatura = await models.AlumnoAsignatura.find({idAlumno: idAlumno, idGrupoMateria: grupoMateria.idGrupoMateria});
+            if(AlumnoAsignatura.length > 0){
+                continue;
+            }
             await models.AlumnoAsignatura.create({idAlumno: idAlumno, idGrupoMateria: grupoMateria.idGrupoMateria});
         }
     }
@@ -242,7 +246,7 @@ class AlumnoController {
             res.send(alumnos);
         }
         catch (error) {
-            console.log(error);
+            
             res.status(500).send({ error: error.message });
         }
     }

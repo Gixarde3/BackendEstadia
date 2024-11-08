@@ -42,7 +42,16 @@ class Evidencia {
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
         
+        
         return db.query(sql, params);
+    }
+
+    static findCercaDeEntregar(idGrupoMateria){
+        return db.query(`
+                            SELECT * 
+                            FROM Evidencia 
+                            WHERE Evidencia.idGrupoMateria = ? 
+                            AND Evidencia.fechaLimite <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)`, [idGrupoMateria]);
     }
 }
 
