@@ -28,8 +28,26 @@ class GrupoController {
             const cantidad = req.body.cantidad;
             const letraInicial = req.body.letra_inicial;
             const items = [];
+            const cohorte = await models.Cohorte.findById(req.body.idCohorte);
+            if (!cohorte) {
+                throw new Error('El cohorte no existe');
+            }
             for (let i = 0; i < cantidad; i++) {
+                const existente = await models.Grupo.find({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte })
+                console.log(existente);
+                if(existente){
+                    continue;
+                }
                 items.push(await models.Grupo.create({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte }));
+            }
+            const asignaturasPlan = await models.Asignatura.find({ idPlanEducativo: cohorte.idPlanEducativo });
+            if(asignaturasPlan.length < 0) {
+                throw new Error('No hay asignaturas en el plan educativo');
+            }
+            for (let i = 0; i < items.length; i++) {
+                for (let j = 0; j < asignaturasPlan.length; j++) {
+                    await models.GrupoMateria.create({ idGrupo: items[i].id, idAsignatura: asignaturasPlan[j].idAsignatura });
+                }
             }
             res.send(items);
         } catch (error) {

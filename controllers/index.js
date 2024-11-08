@@ -33,3 +33,5 @@ const GrupoMateriaController = require('./GrupoMateriaController.js');
 module.exports.GrupoMateriaController = GrupoMateriaController;
 const CohorteController = require('./CohorteController.js');
 module.exports.CohorteController = CohorteController;
+const AlumnoAsignaturaController = require('./AlumnoAsignaturaController.js');
+module.exports.AlumnoAsignaturaController = AlumnoAsignaturaController;

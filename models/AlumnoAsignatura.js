@@ -1,36 +1,33 @@
-// models/Cohorte.js
+// models/AlumnoAsignatura.js
 const db = require('../database');
 
-class Cohorte {
+class AlumnoAsignatura {
     static findAll() {
-        return db.query('SELECT * FROM Cohorte');
+        return db.query('SELECT * FROM AlumnoAsignatura');
     }
 
     static findById(id) {
-        return db.query('SELECT * FROM Cohorte WHERE idCohorte = ?', [id])
+        return db.query('SELECT * FROM AlumnoAsignatura WHERE idAlumnoAsignatura = ?', [id])
             .then(results => results[0]);
     }
 
     static create(data) {
-        console.log('INSERT INTO Cohorte SET ?', JSON.stringify(data));
-
-        return db.query('INSERT INTO Cohorte SET ?', data)
+        return db.query('INSERT INTO AlumnoAsignatura SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
-        
     }
 
     static update(id, data) {
-        return db.query('UPDATE Cohorte SET ? WHERE idCohorte = ?', [data, id])
+        return db.query('UPDATE AlumnoAsignatura SET ? WHERE idAlumnoAsignatura = ?', [data, id])
             .then(() => ({ id, ...data }));
     }
 
     static delete(id) {
-        return db.query('DELETE FROM Cohorte WHERE idCohorte = ?', [id])
+        return db.query('DELETE FROM AlumnoAsignatura WHERE idAlumnoAsignatura = ?', [id])
             .then(() => ({ id }));
     }
 
     static findOne(where) {
-        return db.query('SELECT * FROM Cohorte WHERE ?', where)
+        return db.query('SELECT * FROM AlumnoAsignatura WHERE ?', where)
             .then(results => results[0]);
     }
 
@@ -40,7 +37,7 @@ class Cohorte {
         const values = keys.map(key => `${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM Cohorte WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT * FROM AlumnoAsignatura WHERE ${values.join(' AND ')}`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
@@ -49,4 +46,4 @@ class Cohorte {
     }
 }
 
-module.exports = Cohorte;
+module.exports = AlumnoAsignatura;

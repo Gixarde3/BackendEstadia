@@ -17,7 +17,7 @@ class Alumno {
             return alumnos[0];
         }
         return db.query('INSERT INTO Alumno SET ?', data)
-            .then(result => ({ id: result.insertId, ...data }));
+            .then(result => ({ idAlumno: result.insertId, ...data }));
     }
 
     static update(id, data) {

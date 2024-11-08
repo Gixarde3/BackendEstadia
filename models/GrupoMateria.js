@@ -31,13 +31,17 @@ class GrupoMateria {
             .then(results => results[0]);
     }
 
+    static findByGrupo(id) {
+        return db.query('SELECT * FROM GrupoMateria WHERE idGrupo = ?', [id]);
+    }
+
     static find(where) {
         // Asumimos que 'where' es un objeto con clave-valor
         const keys = Object.keys(where);
-        const values = keys.map(key => `${key} LIKE ?`);
+        const values = keys.map(key => `Asignatura.${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM GrupoMateria WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT GrupoMateria.*, Asignatura.nombre FROM GrupoMateria INNER JOIN Asignatura ON Asignatura.idAsignatura = GrupoMateria.idAsignatura WHERE ${values.join(' AND ')}`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);

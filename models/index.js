@@ -31,3 +31,5 @@ const GrupoMateria = require('./GrupoMateria.js');
 module.exports.GrupoMateria = GrupoMateria;
 const Cohorte = require('./Cohorte.js');
 module.exports.Cohorte = Cohorte;
+const AlumnoAsignatura = require('./AlumnoAsignatura.js');
+module.exports.AlumnoAsignatura = AlumnoAsignatura;

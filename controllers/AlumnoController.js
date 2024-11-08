@@ -27,9 +27,17 @@ class AlumnoController {
     static async create(req, res) {
         try {
             const item = await models.Alumno.create(req.body);
+            this.addToAsignaturas(req.body.idGrupo, item.idAlumno);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async addToAsignaturas(idGrupo, idAlumno) {
+        const gruposMaterias = await models.GrupoMateria.findByGrupo(idGrupo);
+        for (const grupoMateria of gruposMaterias) {
+            await models.AlumnoAsignatura.create({idAlumno: idAlumno, idGrupoMateria: grupoMateria.idGrupoMateria});
         }
     }
 
@@ -70,17 +78,18 @@ class AlumnoController {
     }
 
     static async createMany(req, res) {
-        try{
-            const file = req.files.CrearPorLote;
-            if (!file) {
-                req.body = {
-                    idCohorte: req.body.idCohorte,
-                    idUsuario: req.body.idUsuario,
-                    idGrupo: req.body.idGrupo,
-                    idCarrera: req.body.idCarrera
-                }
-                await AlumnoController.create(req, res);
+        const file = req.files.CrearPorLote;
+        if (!file) {
+            req.body = {
+                idCohorte: req.body.idCohorte,
+                idUsuario: req.body.idUsuario,
+                idGrupo: req.body.idGrupo,
+                idCarrera: req.body.idCarrera
             }
+            return await AlumnoController.create(req, res);
+        }
+        try{
+            
 
             // Crear una nueva instancia de ExcelJS Workbook
             const workbook = new ExcelJS.Workbook();
@@ -220,6 +229,7 @@ class AlumnoController {
                     throw new Error("No existe ningún plan educativo con la clave " + item["Plan Estudios"]);
                 }
                 const alumno = await models.Alumno.create({idUsuario: usuario.idUsuario, idGrupo: grupo.idGrupo, idCarrera: planEducativo.idCarrera, idCohorte: req.body.idCohorte});
+                AlumnoController.addToAsignaturas(grupo.idGrupo, alumno.idAlumno);
                 alumnos.push(alumno);
             }
             controllers.MailController.sendMails(tos, "¡Felicidades! Un administrador te registró", mails, [

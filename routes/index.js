@@ -207,3 +207,14 @@ router.put('/cohorte/:id', checkPrivileges([3]), CohorteController.update);
 router.delete('/cohorte/:id', checkPrivileges([3]), CohorteController.delete);
 router.post('/cohorte/find', checkPrivileges([3]), CohorteController.findOne);
 router.post('/cohortes/findall', checkPrivileges([3]), CohorteController.find);
+
+
+const { AlumnoAsignaturaController } = require('../controllers');
+
+router.get('/alumnoasignaturas', checkPrivileges([1,2,3]), AlumnoAsignaturaController.getAll);
+router.get('/alumnoasignatura/:id', checkPrivileges([1,2,3]), AlumnoAsignaturaController.getById);
+router.post('/alumnoasignatura', checkPrivileges([1,2,3]), AlumnoAsignaturaController.create);
+router.put('/alumnoasignatura/:id', checkPrivileges([1,2,3]), AlumnoAsignaturaController.update);
+router.delete('/alumnoasignatura/:id', checkPrivileges([1,2,3]), AlumnoAsignaturaController.delete);
+router.post('/alumnoasignatura/find', checkPrivileges([1,2,3]), AlumnoAsignaturaController.findOne);
+router.post('/alumnoasignaturas/findall', checkPrivileges([1,2,3]), AlumnoAsignaturaController.find);
