@@ -34,7 +34,7 @@ class GrupoController {
             }
             for (let i = 0; i < cantidad; i++) {
                 const existente = await models.Grupo.find({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte })
-                if(existente){
+                if(existente.lenght > 0){
                     continue;
                 }
                 items.push(await models.Grupo.create({ letra: functions.shiftLetter(letraInicial, i), idCohorte: req.body.idCohorte }));
