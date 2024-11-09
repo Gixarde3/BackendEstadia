@@ -24,3 +24,4 @@ photos/*.ico
 # Ignore sessions
 sessions/
 excel/*
+uploads/*

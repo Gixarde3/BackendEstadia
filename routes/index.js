@@ -220,3 +220,18 @@ router.put('/alumnoasignatura/:id', checkPrivileges([1,2,3]), AlumnoAsignaturaCo
 router.delete('/alumnoasignatura/:id', checkPrivileges([1,2,3]), AlumnoAsignaturaController.delete);
 router.post('/alumnoasignatura/find', checkPrivileges([1,2,3]), AlumnoAsignaturaController.findOne);
 router.post('/alumnoasignaturas/findall', checkPrivileges([1,2,3]), AlumnoAsignaturaController.find);
+
+router.get('/descripciones/:filename', (req, res) => {
+    const { filename } = req.params;
+    const filePath = path.join(__dirname, '../uploads', filename);
+        res.download(filePath, filename, (err) => {
+      if (err) {
+        // Manejo de errores
+        if (!res.headersSent) {
+          res.status(404).json({
+            error: 'Archivo no encontrado'
+          });
+        }
+      }
+    });
+});
