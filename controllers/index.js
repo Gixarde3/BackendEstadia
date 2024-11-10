@@ -37,3 +37,5 @@ const EvidenciaEntregadaController = require('./EvidenciaEntregadaController.js'
 module.exports.EvidenciaEntregadaController = EvidenciaEntregadaController;
 const ArchivoEvidenciaEntregadaController = require('./ArchivoEvidenciaEntregadaController.js');
 module.exports.ArchivoEvidenciaEntregadaController = ArchivoEvidenciaEntregadaController;
+const CriterioEvaluacionController = require('./CriterioEvaluacionController.js');
+module.exports.CriterioEvaluacionController = CriterioEvaluacionController;

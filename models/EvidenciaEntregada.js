@@ -34,7 +34,7 @@ class EvidenciaEntregada {
     static find(where) {
         // Asumimos que 'where' es un objeto con clave-valor
         const keys = Object.keys(where);
-        const values = keys.map(key => `${key} LIKE ?`);
+        const values = keys.map(key => `EvidenciaEntregada.${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
         const sql = `SELECT *, CONCAT(Usuario.clave_identificacion, ' | ', Usuario.nombre, ' ', Usuario.apellido_paterno, ' ', Usuario.apellido_materno) AS nombre 
@@ -46,6 +46,8 @@ class EvidenciaEntregada {
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);
         
+
+
         return db.query(sql, params);
     }
 }

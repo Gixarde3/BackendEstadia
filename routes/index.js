@@ -62,11 +62,11 @@ router.post('/cambiar-contrasena', UsuarioController.cambiarContrasena);
 const { AlumnoController } = require('../controllers');
 
 router.get('/alumnos', checkPrivileges([3]), AlumnoController.getAll);
-router.get('/alumno/:id', checkPrivileges([3]), AlumnoController.getById);
+router.get('/alumno/:id', checkPrivileges([1,2,3]), AlumnoController.getById);
 router.post('/alumno', /*checkPrivileges([3]),*/ AlumnoController.createMany);
 router.put('/alumno/:id', checkPrivileges([3]), AlumnoController.update);
 router.delete('/alumno/:id', checkPrivileges([3]), AlumnoController.delete);
-router.post('/alumno/find', checkPrivileges([2,3]), AlumnoController.findOne);
+router.post('/alumno/find', /*checkPrivileges([2,3]), */AlumnoController.findOne);
 router.post('/alumnos/findall', /*checkPrivileges([2,3]),*/ AlumnoController.find);
 
 const { ProfesorController } = require('../controllers');
@@ -245,3 +245,14 @@ router.put('/archivoevidenciaentregada/:id', checkPrivileges([1,2,3]), ArchivoEv
 router.delete('/archivoevidenciaentregada/:id', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.delete);
 router.post('/archivoevidenciaentregada/find', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.findOne);
 router.post('/archivoevidenciaentregadas/findall', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.find);
+
+
+const { CriterioEvaluacionController } = require('../controllers');
+
+router.get('/criterioevaluacions', checkPrivileges([1,2,3]), CriterioEvaluacionController.getAll);
+router.get('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.getById);
+router.post('/criterioevaluacion', checkPrivileges([1,2,3]), CriterioEvaluacionController.create);
+router.put('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.update);
+router.delete('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.delete);
+router.post('/criterioevaluacion/find', checkPrivileges([1,2,3]), CriterioEvaluacionController.findOne);
+router.post('/criterioevaluacions/findall', checkPrivileges([1,2,3]), CriterioEvaluacionController.find);

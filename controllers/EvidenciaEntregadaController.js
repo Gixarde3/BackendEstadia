@@ -25,16 +25,32 @@ class EvidenciaEntregadaController {
     static async create(req, res) {
         try {
             const evidenciaEntregada = await models.EvidenciaEntregada.find({
-                idEvidencia: req.body.idEvidencia
+                idEvidencia: req.body.idEvidencia,
+                idAlumno: req.body.idAlumno
             })
             const archivos = req.files.archivos;
             if (evidenciaEntregada.length > 0) {
+                const archivosYaEntregados = await models.ArchivoEvidenciaEntregada.find({
+                    idEvidenciaEntregada: evidenciaEntregada[0].idEvidenciaEntregada
+                });
                 if(archivos){
-                    const archivosYaEntregados = await models.ArchivoEvidenciaEntregada.find({
-                        idEvidenciaEntregada: evidenciaEntregada[0].idEvidenciaEntregada
-                    })
-                    
-                    archivos.forEach(async archivo => {
+                    if(archivos.length > 1){
+                        archivos.forEach(async archivo => {
+                            if(archivosYaEntregados.filter(archivoEntregado => archivoEntregado.nombre_original === archivo.originalFilename).length === 0){
+                                const archivoBuffer = fs.readFileSync(archivo.path);
+                                // Nuevo nombre archivo encriptado con md5
+                                const nombre = crypto.randomBytes(16).toString('hex') + path.extname(archivo.name);
+                                fs.writeFileSync(path.join(__dirname, `../uploads/${nombre}`), archivoBuffer);
+                                await models.ArchivoEvidenciaEntregada.create({
+                                    idEvidenciaEntregada: evidenciaEntregada[0].idEvidenciaEntregada,
+                                    archivo: nombre,
+                                    nombre_original: archivo.originalFilename,
+                                    extension: path.extname(archivo.name)
+                                })
+                            }
+                        });
+                    }else{
+                        const archivo = archivos;
                         if(archivosYaEntregados.filter(archivoEntregado => archivoEntregado.nombre_original === archivo.originalFilename).length === 0){
                             const archivoBuffer = fs.readFileSync(archivo.path);
                             // Nuevo nombre archivo encriptado con md5
@@ -47,17 +63,22 @@ class EvidenciaEntregadaController {
                                 extension: path.extname(archivo.name)
                             })
                         }
-                    }); 
-
-                    const archivosAEliminar = archivosYaEntregados.filter(archivo => 
-                        !archivos.some(archivoNuevo => archivo.nombre_original === archivoNuevo.originalFilename)
-                    );
-
-                    archivosAEliminar.forEach(async archivo => {
-                        fs.unlinkSync(path.join(__dirname, `../uploads/${archivo.archivo}`));
-                        await models.ArchivoEvidenciaEntregada.delete(archivo.idArchivoEvidenciaEntregada);
-                    });
+                    }
                 }
+                
+
+                const archivosRecibidosYaExistentes = req.body.archivosYaEntregados ?? [];                
+                const archivosAEliminar = archivosYaEntregados.filter(archivo => {
+                    if(!Array.isArray(archivosRecibidosYaExistentes)){
+                        return archivo.nombre_original !== archivosRecibidosYaExistentes;
+                    }
+                    return !archivosRecibidosYaExistentes.some(archivoExistente => archivo.nombre_original === archivoExistente)
+                });
+
+                archivosAEliminar.forEach(async archivo => {
+                    fs.unlinkSync(path.join(__dirname, `../uploads/${archivo.archivo}`));
+                    await models.ArchivoEvidenciaEntregada.delete(archivo.idArchivoEvidenciaEntregada);
+                });
                 res.send(evidenciaEntregada[0]);
                 return;
             }
