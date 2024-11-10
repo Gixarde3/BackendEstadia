@@ -43,6 +43,17 @@ class EvidenciaController {
 
     static async update(req, res) {
         try {
+            if(req.files && req.files.archivoDescripcion){
+                const archivoDescripcion = req.files.archivoDescripcion;
+                const archivoBuffer = fs.readFileSync(archivoDescripcion.path);
+                // Nuevo nombre archivo encriptado con md5
+                const nombre = crypto.randomBytes(16).toString('hex') + path.extname(archivoDescripcion.name);
+                req.body.archivoDescripcion = nombre;
+                fs.writeFileSync(path.join(__dirname, `../uploads/${nombre}`), archivoBuffer);
+            }else{
+                const item = await models.Evidencia.findById(req.params.id);
+                req.body.archivoDescripcion = item.archivoDescripcion;
+            }
             const item = await models.Evidencia.update(req.params.id, req.body);
             res.send(item);
         } catch (error) {

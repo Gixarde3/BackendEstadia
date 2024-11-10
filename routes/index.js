@@ -132,7 +132,7 @@ router.post('/atributoegreso', checkPrivileges([3]), AtributoEgresoController.cr
 router.put('/atributoegreso/:id', checkPrivileges([3]), AtributoEgresoController.update);
 router.delete('/atributoegreso/:id', checkPrivileges([3]), AtributoEgresoController.delete);
 router.post('/atributoegreso/find', checkPrivileges([3]), AtributoEgresoController.findOne);
-router.post('/atributoegresos/findall', checkPrivileges([3]), AtributoEgresoController.find);
+router.post('/atributoegresos/findall', checkPrivileges([1,2,3]), AtributoEgresoController.find);
 
 
 const { CriterioDesempenioController } = require('../controllers');
@@ -143,7 +143,7 @@ router.post('/criteriodesempenio', checkPrivileges([3]), CriterioDesempenioContr
 router.put('/criteriodesempenio/:id', checkPrivileges([3]), CriterioDesempenioController.update);
 router.delete('/criteriodesempenio/:id', checkPrivileges([3]), CriterioDesempenioController.delete);
 router.post('/criteriodesempenio/find', checkPrivileges([3]), CriterioDesempenioController.findOne);
-router.post('/criteriodesempenios/findall', checkPrivileges([3]), CriterioDesempenioController.find);
+router.post('/criteriodesempenios/findall', checkPrivileges([1,2,3]), CriterioDesempenioController.find);
 
 const { GrupoController } = require('../controllers');
 
@@ -164,18 +164,7 @@ router.post('/evidencia', /*checkPrivileges([2,3]),*/ EvidenciaController.create
 router.put('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.update);
 router.delete('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.delete);
 router.post('/evidencia/find', checkPrivileges([2,3]), EvidenciaController.findOne);
-router.post('/evidencias/findall', checkPrivileges([2,3]), EvidenciaController.find);
-
-
-const { EntregaEvidenciaController } = require('../controllers');
-
-router.get('/entregaevidencias', checkPrivileges([2,3]), EntregaEvidenciaController.getAll);
-router.get('/entregaevidencia/:id', checkPrivileges([1,2,3]), EntregaEvidenciaController.getById);
-router.post('/entregaevidencia', checkPrivileges([1]), EntregaEvidenciaController.create);
-router.put('/entregaevidencia/:id', checkPrivileges([1]), EntregaEvidenciaController.update);
-router.delete('/entregaevidencia/:id', checkPrivileges([1]), EntregaEvidenciaController.delete);
-router.post('/entregaevidencia/find', checkPrivileges([1,2,3]), EntregaEvidenciaController.findOne);
-router.post('/entregaevidencias/findall', checkPrivileges([1,2,3]), EntregaEvidenciaController.find);
+router.post('/evidencias/findall', checkPrivileges([1, 2,3]), EvidenciaController.find);
 
 
 const { IndicadorController } = require('../controllers');
@@ -186,7 +175,7 @@ router.post('/indicador', checkPrivileges([3]), IndicadorController.create);
 router.put('/indicador/:id', checkPrivileges([3]), IndicadorController.update);
 router.delete('/indicador/:id', checkPrivileges([3]), IndicadorController.delete);
 router.post('/indicador/find', checkPrivileges([3]), IndicadorController.findOne);
-router.post('/indicadors/findall', checkPrivileges([3]), IndicadorController.find);
+router.post('/indicadors/findall', checkPrivileges([1,2,3]), IndicadorController.find);
 
 
 const { GrupoMateriaController } = require('../controllers');
@@ -235,3 +224,24 @@ router.get('/descripciones/:filename', (req, res) => {
       }
     });
 });
+
+const { EvidenciaEntregadaController } = require('../controllers');
+
+router.get('/evidenciaentregadas', /*checkPrivileges([1,2,3]), */EvidenciaEntregadaController.getAll);
+router.get('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.getById);
+router.post('/evidenciaentregada', /*checkPrivileges([1,2,3]), */EvidenciaEntregadaController.create);
+router.put('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.update);
+router.delete('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.delete);
+router.post('/evidenciaentregada/find', checkPrivileges([1,2,3]), EvidenciaEntregadaController.findOne);
+router.post('/evidenciaentregadas/findall', checkPrivileges([1,2,3]), EvidenciaEntregadaController.find);
+
+
+const { ArchivoEvidenciaEntregadaController } = require('../controllers');
+
+router.get('/archivoevidenciaentregadas', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.getAll);
+router.get('/archivoevidenciaentregada/:id', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.getById);
+router.post('/archivoevidenciaentregada', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.create);
+router.put('/archivoevidenciaentregada/:id', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.update);
+router.delete('/archivoevidenciaentregada/:id', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.delete);
+router.post('/archivoevidenciaentregada/find', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.findOne);
+router.post('/archivoevidenciaentregadas/findall', checkPrivileges([1,2,3]), ArchivoEvidenciaEntregadaController.find);

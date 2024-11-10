@@ -37,7 +37,7 @@ class Evidencia {
         const values = keys.map(key => `${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM Evidencia WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT * FROM Evidencia WHERE ${values.join(' AND ')} ORDER BY fechaLimite ASC`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);

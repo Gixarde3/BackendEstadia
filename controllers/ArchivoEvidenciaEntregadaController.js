@@ -1,10 +1,10 @@
-// controllers/EntregaEvidenciaController.js
+// controllers/ArchivoEvidenciaEntregadaController.js
 const models = require('../models');
 
-class EntregaEvidenciaController {
+class ArchivoEvidenciaEntregadaController {
     static async getAll(req, res) {
         try {
-            const items = await models.EntregaEvidencia.findAll();
+            const items = await models.ArchivoEvidenciaEntregada.findAll();
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -13,7 +13,7 @@ class EntregaEvidenciaController {
 
     static async getById(req, res) {
         try {
-            const item = await models.EntregaEvidencia.findById(req.params.id);
+            const item = await models.ArchivoEvidenciaEntregada.findById(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -22,7 +22,7 @@ class EntregaEvidenciaController {
 
     static async create(req, res) {
         try {
-            const item = await models.EntregaEvidencia.create(req.body);
+            const item = await models.ArchivoEvidenciaEntregada.create(req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -31,7 +31,7 @@ class EntregaEvidenciaController {
 
     static async update(req, res) {
         try {
-            const item = await models.EntregaEvidencia.update(req.params.id, req.body);
+            const item = await models.ArchivoEvidenciaEntregada.update(req.params.id, req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -40,7 +40,7 @@ class EntregaEvidenciaController {
 
     static async delete(req, res) {
         try {
-            const item = await models.EntregaEvidencia.delete(req.params.id);
+            const item = await models.ArchivoEvidenciaEntregada.delete(req.params.id);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -49,7 +49,7 @@ class EntregaEvidenciaController {
 
     static async findOne(req, res) {
         try {
-            const item = await models.EntregaEvidencia.findOne(req.body);
+            const item = await models.ArchivoEvidenciaEntregada.findOne(req.body);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -58,7 +58,7 @@ class EntregaEvidenciaController {
 
     static async find(req, res) {
         try {
-            const items = await models.EntregaEvidencia.find(req.body);
+            const items = await models.ArchivoEvidenciaEntregada.find(req.body);
             res.send(items);
         } catch (error) {
             res.status(500).send({ error: error.message });
@@ -66,4 +66,4 @@ class EntregaEvidenciaController {
     }
 }
 
-module.exports = EntregaEvidenciaController;
+module.exports = ArchivoEvidenciaEntregadaController;
