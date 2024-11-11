@@ -251,7 +251,7 @@ const { CriterioEvaluacionController } = require('../controllers');
 
 router.get('/criterioevaluacions', checkPrivileges([1,2,3]), CriterioEvaluacionController.getAll);
 router.get('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.getById);
-router.post('/criterioevaluacion', checkPrivileges([1,2,3]), CriterioEvaluacionController.create);
+router.post('/criterioevaluacion', /*checkPrivileges([1,2,3]),*/ CriterioEvaluacionController.create);
 router.put('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.update);
 router.delete('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.delete);
 router.post('/criterioevaluacion/find', checkPrivileges([1,2,3]), CriterioEvaluacionController.findOne);
