@@ -73,6 +73,17 @@ class GrupoMateriaController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async getCalificaciones(req, res) {
+        try{
+            const idGrupoMateria = req.params.id;
+            const idAlumno = req.params.idAlumno;
+            const items = await models.GrupoMateria.getCalificaciones(idGrupoMateria, idAlumno);
+            res.send(items);
+        }catch(error){
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = GrupoMateriaController;

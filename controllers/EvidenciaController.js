@@ -132,10 +132,9 @@ class EvidenciaController {
 
             For this activity, you should use the following type: ${tipoEvidencia}
             Do not rwrite the params in your response, only the content of the activity.
-            When describing an evaluation criterion, make it clear and specific, explaining what should be achieved but also how it will be evaluated. For example:
+            When defining an evaluation criterion, ensure it is clear, specific, and outlines both what should be achieved and how it will be evaluated. For example: "Clarity and precision in presenting the proposal" can be assessed by determining whether the idea is communicated in a way that is clearly and precisely understood solely from the proposal itself.
 
-            Clarity and precision in presenting the proposal, verified by whether the idea is understood clearly and precisely solely from the proposal.
-            
+            Moreover, evaluation criteria should be specific items that directly assess individual aspects of the activity. Long or complex criteria are not ideal; they should instead be broken down into smaller, focused criteria, each measuring one distinct element of the activity.
             Ensure that the activity aligns with the evidence objective and integrates any additional provided criteria, exit attributes, or indicators to ensure compliance. Respond only in Spanish and maintain a structured, professional tone.`
         );
         const actividad = JSON.parse(result.response.text());
@@ -152,6 +151,7 @@ class EvidenciaController {
             fechaLimite: fechaEntrega.toISOString().slice(0, 19).replace('T', ' '),
             idGrupoMateria: req.body.idGrupoMateria,
             tipo: tipoEvidencia,
+            porcentajeFinal: req.body.porcentajeFinal ?? 0,
         }
         const criteriosEvaluacion = actividad.criteriosEvaluacion;
         const evidencia = await models.Evidencia.create(evidenciaACrearr);

@@ -51,6 +51,7 @@ class EvidenciaEntregadaController {
                         });
                     }else{
                         const archivo = archivos;
+                        console.log(archivo)
                         if(archivosYaEntregados.filter(archivoEntregado => archivoEntregado.nombre_original === archivo.originalFilename).length === 0){
                             const archivoBuffer = fs.readFileSync(archivo.path);
                             // Nuevo nombre archivo encriptado con md5

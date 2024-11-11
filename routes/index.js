@@ -189,6 +189,7 @@ router.delete('/grupomateria/:id', checkPrivileges([3]), GrupoMateriaController.
 router.post('/grupomateria/find', checkPrivileges([3]), GrupoMateriaController.findOne);
 router.post('/grupomaterias/findall', checkPrivileges([3]), GrupoMateriaController.find);
 router.get('/grupomateria/:id/proximas-entregas', checkPrivileges([1,2,3]), GrupoMateriaController.getProximasEntregas);
+router.get('/grupomateria/:id/calificaciones/:idAlumno', checkPrivileges([1,2,3]), GrupoMateriaController.getCalificaciones);
 
 const { CohorteController } = require('../controllers');
 

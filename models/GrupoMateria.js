@@ -48,6 +48,16 @@ class GrupoMateria {
         
         return db.query(sql, params);
     }
+
+    static getCalificaciones(idGrupoMateria, idAlumno) {
+        return db.query(`
+            SELECT sum(CriterioEvaluacionPuntajes.puntaje * CriterioEvaluacion.porcentaje_al_final / 100) * (Evidencia.porcentajeFinal / 100) as calificacion
+            FROM CriterioEvaluacionPuntajes
+            INNER JOIN CriterioEvaluacion on CriterioEvaluacion.idCriterioEvaluacion = CriterioEvaluacionPuntajes.idCriterioEvaluacion
+            LEFT JOIN Evidencia on Evidencia.idEvidencia = CriterioEvaluacion.idEvidencia
+            WHERE idAlumno = ? AND Evidencia.idGrupoMateria = ?;
+            `, [idAlumno, idGrupoMateria]).then(results => results[0]);
+    }
 }
 
 module.exports = GrupoMateria;
