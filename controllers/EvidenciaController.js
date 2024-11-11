@@ -3,6 +3,10 @@ const models = require('../models');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const GoogleGenerativeAI = require('@google/generative-ai');
+//import { GoogleAIFileManager } from "@google/generative-ai/server";
+const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(process.env.API_KEY);
+
 class EvidenciaController {
     static async getAll(req, res) {
         try {
@@ -39,6 +43,124 @@ class EvidenciaController {
         } catch (error) {
             res.status(500).send({ error: error.message });
         }
+    }
+
+    static async generateEvidencia(req, res) {
+        const atributoEgreso = models.AtributoEgreso.findById(req.body.idAtributoEgreso);
+        const criterioDesempenio = models.CriterioDesempenio.findAll(req.body.idCriteriosEvaluacion);
+        const indicador = models.Indicador.findById(req.body.idIndicador);
+        const tipoEvidencia = req.body.tipoEvidencia;
+        const schemaEvidencia = {
+            description: "Estructura de una evidencia",
+            type: GoogleGenerativeAI.SchemaType.OBJECT,
+            properties: {
+              nombre: {
+                type: GoogleGenerativeAI.SchemaType.STRING,
+                description: "Nombre de la evidencia",
+                nullable: false,
+              },
+              descripcion: {
+                type: GoogleGenerativeAI.SchemaType.STRING,
+                description: "Descripción de la evidencia",
+                nullable: false,
+              },
+              objetivo: {
+                type: GoogleGenerativeAI.SchemaType.STRING,
+                description: "Objetivo de la evidencia",
+                nullable: false,
+              },
+              tiempoLimite: {
+                type: GoogleGenerativeAI.SchemaType.NUMBER,
+                description: "Tiempo límite de la evidencia en días",
+                nullable: true,
+              },
+              criteriosEvaluacion: {
+                type: GoogleGenerativeAI.SchemaType.ARRAY,
+                items: {
+                  type: GoogleGenerativeAI.SchemaType.OBJECT,
+                  properties: {
+                    titulo: {
+                      type: GoogleGenerativeAI.SchemaType.STRING,
+                      description: "Título del criterio de evaluación",
+                      nullable: false,
+                    },
+                    descripcion: {
+                      type: GoogleGenerativeAI.SchemaType.STRING,
+                      description: "Descripción del criterio de evaluación",
+                      nullable: false,
+                    },
+                    porcentaje_al_final: {
+                      type: GoogleGenerativeAI.SchemaType.NUMBER,
+                      description: "Valor en porcentaje aportado para el puntaje final de la evidencia",
+                      nullable: false,
+                    },
+                  },
+                  required: ["titulo", "descripcion", "porcentaje_al_final"],
+                },
+                description: "Criterios de evaluación de la evidencia",
+                nullable: false,
+              },
+            },
+            required: ["nombre", "descripcion", "objetivo", "criteriosEvaluacion", "tiempoLimite"],
+          };
+          
+
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-pro",
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: schemaEvidencia,
+            },
+        });
+        
+        const atributoEgresoTexto = atributoEgreso.descripcion;
+        const criterioDesempenioTexto = criterioDesempenio.descripcion;
+        const indicadorTexto = indicador.descripcion;
+        const objetivoEvidencia = req.body.objetivo;
+        const result = await model.generateContent(
+            `You are a professional educator who bases all activities on the book Evaluación del y para el Aprendizaje: instrumentos y estrategias by Melchor Sánchez Mendiola and Adrián Martínez González, edited by Yolanda Fabiola Rodríguez Cházaro, with editorial design by Virginia González Garibay and Karla Patricia Sosa Ramírez (© 2020, Universidad Nacional Autónoma de México, Coordinación de Desarrollo Educativo e Innovación Curricular). 
+            
+            Your objective now is to create an activity that fulfills the following:
+            Exit Attribute: ${atributoEgresoTexto}
+            Performance Criteria: ${criterioDesempenioTexto}
+            Indicator: ${indicadorTexto}
+            Evidence Objective: ${objetivoEvidencia}
+            Types of Evidence:
+                Producto (large-scale, often a project, individual or team-based)
+                Desempeño (brief, individual activities for in-class completion)
+                Conocimiento (knowledge assessment exams)
+
+            For this activity, you should use the following type: ${tipoEvidencia}
+            Do not rwrite the params in your response, only the content of the activity.
+            When describing an evaluation criterion, make it clear and specific, explaining what should be achieved but also how it will be evaluated. For example:
+
+            Clarity and precision in presenting the proposal, verified by whether the idea is understood clearly and precisely solely from the proposal.
+            
+            Ensure that the activity aligns with the evidence objective and integrates any additional provided criteria, exit attributes, or indicators to ensure compliance. Respond only in Spanish and maintain a structured, professional tone.`
+        );
+        const actividad = JSON.parse(result.response.text());
+        let fechaEntrega = new Date();
+        fechaEntrega.setDate(fechaEntrega.getDate() + actividad.tiempoLimite);
+        const evidenciaACrearr ={
+            nombre: actividad.nombre,
+            descripcion: actividad.descripcion,
+            objetivo: actividad.objetivo,
+            momento: "sumativa",
+            idAtributoEgreso: req.body.idAtributoEgreso ?? null,
+            idIndicador: req.body.idIndicador ?? null,
+            idCriterioDesempenio: req.body.idCriterioDesempenio ?? null,
+            fechaLimite: fechaEntrega.toISOString().slice(0, 19).replace('T', ' '),
+            idGrupoMateria: req.body.idGrupoMateria,
+            tipo: tipoEvidencia,
+        }
+        const criteriosEvaluacion = actividad.criteriosEvaluacion;
+        const evidencia = await models.Evidencia.create(evidenciaACrearr);
+        
+        for (let i = 0; i < criteriosEvaluacion.length; i++) {
+            criteriosEvaluacion[i].idEvidencia = evidencia.idEvidencia;
+            await models.CriterioEvaluacion.create(criteriosEvaluacion[i]);
+        }
+        res.send(evidencia);
     }
 
     static async update(req, res) {

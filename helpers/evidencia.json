@@ -1,0 +1,43 @@
+{
+    "criteriosEvaluacion": [
+        {
+            "descripcion": "El análisis empresarial identifica correctamente el contexto del negocio, los actores involucrados y sus necesidades.",
+            "puntaje_al_final": 20.0,
+            "titulo": "Análisis Empresarial"
+        },
+        {
+            "descripcion": "El modelado de la lógica de negocios representa con precisión los procesos y flujos de información relevantes para el sistema.",
+            "puntaje_al_final": 20.0,
+            "titulo": "Modelado de la Lógica de Negocios"
+        },
+        {
+            "descripcion": "Las preguntas de la entrevista son claras, concisas y orientadas a obtener información relevante para la definición de los requisitos funcionales.",
+            "puntaje_al_final": 15.0,
+            "titulo": "Preguntas de la Entrevista"
+        },
+        {
+            "descripcion": "Las respuestas del cliente son completas y permiten comprender sus necesidades.",
+            "puntaje_al_final": 10.0,
+            "titulo": "Respuestas del Cliente"
+        },
+        {
+            "descripcion": "La evidencia multimedia (video o audio) de la entrevista es clara, audible/visible y completa.",
+            "puntaje_al_final": 10.0,
+            "titulo": "Evidencia Multimedia"
+        },
+        {
+            "descripcion": "Los requisitos funcionales están descritos de forma clara, concisa, sin ambigüedades y siguiendo los estándares de la industria.  Se evita la inclusión de detalles de diseño.",
+            "puntaje_al_final": 20.0,
+            "titulo": "Descripción de Requisitos Funcionales"
+        },
+        {
+            "descripcion": "El reporte digital presenta una correcta gramática, ortografía y estructura, con oraciones y párrafos cortos,  facilitando la lectura y comprensión.",
+            "puntaje_al_final": 5.0,
+            "titulo": "Redacción y Ortografía"
+        }
+    ],
+    "descripcion": "Los estudiantes, en equipos de 4 personas, analizarán un caso de estudio proporcionado por el profesor.  El caso de estudio describirá un escenario de negocio que requiere una solución de software.  Los equipos deberán realizar un análisis empresarial, modelar la lógica de negocios, diseñar preguntas para una entrevista con el \"cliente\" (un miembro de otro equipo que actuará como tal), llevar a cabo la entrevista, documentar las respuestas y, finalmente, elaborar un reporte digital con la descripción formal de los requisitos funcionales del sistema.  El reporte debe incluir el análisis empresarial, el modelado de la lógica de negocios, las preguntas de la entrevista, las respuestas del cliente, un enlace al archivo multimedia de la entrevista y la descripción formal de los requisitos funcionales.",
+    "momento": "Final del segundo parcial",
+    "nombre": "Elicitación de Requisitos y Análisis de un Caso de Estudio",
+    "objetivo": "Analizar y determinar los requerimientos de software mediante el uso de estándares y técnicas establecidas, con el fin de modelar una solución innovadora que atienda las necesidades específicas del cliente en un contexto de negocio.  Participar en la elicitación de requisitos funcionales para un caso práctico de sistema informático, realizando una entrevista estructurada con el cliente.  Documentar el proceso en un reporte digital que contiene: análisis empresarial, modelado de la lógica de negocios, preguntas formuladas durante la entrevista y respuestas obtenidas del cliente. Además, se incluye evidencia multimedia de la entrevista y una descripción formal de los requisitos funcionales que refleja las necesidades del cliente, siguiendo una estructura alineada a los estándares de la industria. Estos requisitos están formulados sin ambigüedades, presentan consistencia y excluyen detalles de diseño, con un lenguaje claro y preciso. El documento resultante debe cumplir con normas de gramática y ortografía adecuadas, presentando la información en párrafos cortos y bien estructurados."
+}

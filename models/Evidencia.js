@@ -13,7 +13,7 @@ class Evidencia {
 
     static create(data) {
         return db.query('INSERT INTO Evidencia SET ?', data)
-            .then(result => ({ id: result.insertId, ...data }));
+            .then(result => ({ idEvidencia: result.insertId, ...data }));
     }
 
     static update(id, data) {
@@ -37,7 +37,7 @@ class Evidencia {
         const values = keys.map(key => `${key} LIKE ?`);
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM Evidencia WHERE ${values.join(' AND ')} ORDER BY fechaLimite ASC`;
+        const sql = `SELECT * FROM Evidencia WHERE ${values.join(' AND ')} ORDER BY idEvidencia DESC`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);

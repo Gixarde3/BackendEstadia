@@ -165,6 +165,7 @@ router.put('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.update)
 router.delete('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.delete);
 router.post('/evidencia/find', checkPrivileges([2,3]), EvidenciaController.findOne);
 router.post('/evidencias/findall', checkPrivileges([1, 2,3]), EvidenciaController.find);
+router.post('/evidencia/generar',checkPrivileges([2,3]), EvidenciaController.generateEvidencia);
 
 
 const { IndicadorController } = require('../controllers');
