@@ -37,3 +37,5 @@ const ArchivoEvidenciaEntregada = require('./ArchivoEvidenciaEntregada.js');
 module.exports.ArchivoEvidenciaEntregada = ArchivoEvidenciaEntregada;
 const CriterioEvaluacion = require('./CriterioEvaluacion.js');
 module.exports.CriterioEvaluacion = CriterioEvaluacion;
+const CriterioEvaluacionPuntajes = require('./CriterioEvaluacionPuntajes.js');
+module.exports.CriterioEvaluacionPuntajes = CriterioEvaluacionPuntajes;

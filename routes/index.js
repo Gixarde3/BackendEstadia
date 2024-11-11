@@ -214,14 +214,14 @@ router.get('/descripciones/:filename', (req, res) => {
     const { filename } = req.params;
     const filePath = path.join(__dirname, '../uploads', filename);
         res.download(filePath, filename, (err) => {
-      if (err) {
-        // Manejo de errores
-        if (!res.headersSent) {
-          res.status(404).json({
-            error: 'Archivo no encontrado'
-          });
+        if (err) {
+            // Manejo de errores
+            if (!res.headersSent) {
+            res.status(404).json({
+                error: 'Archivo no encontrado'
+            });
+            }
         }
-      }
     });
 });
 
@@ -256,3 +256,14 @@ router.put('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluaci
 router.delete('/criterioevaluacion/:id', checkPrivileges([1,2,3]), CriterioEvaluacionController.delete);
 router.post('/criterioevaluacion/find', checkPrivileges([1,2,3]), CriterioEvaluacionController.findOne);
 router.post('/criterioevaluacions/findall', checkPrivileges([1,2,3]), CriterioEvaluacionController.find);
+
+
+const { CriterioEvaluacionPuntajesController } = require('../controllers');
+
+router.get('/criterioevaluacionpuntajess', checkPrivileges([2,3]), CriterioEvaluacionPuntajesController.getAll);
+router.get('/criterioevaluacionpuntajes/:id', checkPrivileges([2,3]), CriterioEvaluacionPuntajesController.getById);
+router.post('/criterioevaluacionpuntajes', /*checkPrivileges([2,3]), */CriterioEvaluacionPuntajesController.create);
+router.put('/criterioevaluacionpuntajes/:id', checkPrivileges([2,3]), CriterioEvaluacionPuntajesController.update);
+router.delete('/criterioevaluacionpuntajes/:id', checkPrivileges([2,3]), CriterioEvaluacionPuntajesController.delete);
+router.post('/criterioevaluacionpuntajes/find', /*checkPrivileges([1,2,3]),*/ CriterioEvaluacionPuntajesController.findOne);
+router.post('/criterioevaluacionpuntajess/findall', checkPrivileges([1,2,3]), CriterioEvaluacionPuntajesController.find);
