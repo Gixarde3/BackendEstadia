@@ -160,7 +160,8 @@ class EvidenciaController {
             criteriosEvaluacion[i].idEvidencia = evidencia.idEvidencia;
             await models.CriterioEvaluacion.create(criteriosEvaluacion[i]);
         }
-        res.send(evidencia);
+        actividad.idEvidencia = evidencia.idEvidencia;
+        res.send(actividad);
     }
 
     static async update(req, res) {
