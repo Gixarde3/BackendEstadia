@@ -236,7 +236,7 @@ router.put('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntrega
 router.delete('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.delete);
 router.post('/evidenciaentregada/find', checkPrivileges([1,2,3]), EvidenciaEntregadaController.findOne);
 router.post('/evidenciaentregadas/findall', checkPrivileges([1,2,3]), EvidenciaEntregadaController.find);
-router.post('/evidenciaentregada/retroalimentacion', EvidenciaController.generateRetroalimentacion);
+router.post('/evidenciaentregada/retroalimentacion',checkPrivileges([2,3]), EvidenciaController.generateRetroalimentacion);
 
 
 const { ArchivoEvidenciaEntregadaController } = require('../controllers');
