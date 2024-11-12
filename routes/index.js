@@ -236,6 +236,7 @@ router.put('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntrega
 router.delete('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.delete);
 router.post('/evidenciaentregada/find', checkPrivileges([1,2,3]), EvidenciaEntregadaController.findOne);
 router.post('/evidenciaentregadas/findall', checkPrivileges([1,2,3]), EvidenciaEntregadaController.find);
+router.post('/evidenciaentregada/retroalimentacion', EvidenciaController.generateRetroalimentacion);
 
 
 const { ArchivoEvidenciaEntregadaController } = require('../controllers');
@@ -269,3 +270,14 @@ router.put('/criterioevaluacionpuntajes/:id', checkPrivileges([2,3]), CriterioEv
 router.delete('/criterioevaluacionpuntajes/:id', checkPrivileges([2,3]), CriterioEvaluacionPuntajesController.delete);
 router.post('/criterioevaluacionpuntajes/find', /*checkPrivileges([1,2,3]),*/ CriterioEvaluacionPuntajesController.findOne);
 router.post('/criterioevaluacionpuntajess/findall', checkPrivileges([1,2,3]), CriterioEvaluacionPuntajesController.find);
+
+
+const { RetroalimentacionEvidenciaEntregadaController } = require('../controllers');
+
+router.get('/retroalimentacionevidenciaentregadas', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.getAll);
+router.get('/retroalimentacionevidenciaentregada/:id', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.getById);
+router.post('/retroalimentacionevidenciaentregada', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.create);
+router.put('/retroalimentacionevidenciaentregada/:id', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.update);
+router.delete('/retroalimentacionevidenciaentregada/:id', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.delete);
+router.post('/retroalimentacionevidenciaentregada/find', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.findOne);
+router.post('/retroalimentacionevidenciaentregadas/findall', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.find);

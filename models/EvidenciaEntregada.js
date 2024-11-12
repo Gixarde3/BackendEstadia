@@ -27,7 +27,11 @@ class EvidenciaEntregada {
     }
 
     static findOne(where) {
-        return db.query('SELECT * FROM EvidenciaEntregada WHERE ?', where)
+        const keys = Object.keys(where);
+        const values = keys.map(key => `${key} = ?`);
+        const params = keys.map(key => where[key]);
+        const sql = `SELECT * FROM EvidenciaEntregada WHERE ${values.join(' AND ')}`;
+        return db.query(sql, params)
             .then(results => results[0]);
     }
 

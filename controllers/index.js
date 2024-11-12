@@ -41,3 +41,5 @@ const CriterioEvaluacionController = require('./CriterioEvaluacionController.js'
 module.exports.CriterioEvaluacionController = CriterioEvaluacionController;
 const CriterioEvaluacionPuntajesController = require('./CriterioEvaluacionPuntajesController.js');
 module.exports.CriterioEvaluacionPuntajesController = CriterioEvaluacionPuntajesController;
+const RetroalimentacionEvidenciaEntregadaController = require('./RetroalimentacionEvidenciaEntregadaController.js');
+module.exports.RetroalimentacionEvidenciaEntregadaController = RetroalimentacionEvidenciaEntregadaController;
