@@ -34,10 +34,19 @@ class AlumnoAsignatura {
     static find(where) {
         // Asumimos que 'where' es un objeto con clave-valor
         const keys = Object.keys(where);
-        const values = keys.map(key => `${key} LIKE ?`);
+        const values = keys.map(key => {
+            if(key === 'idGrupoMateria' || key === 'idAlumno'){
+                return `AlumnoAsignatura.${key} LIKE ? `
+            }else{
+                return `Usuario.${key} LIKE ? `;
+            }
+        });
         
         // Crear la consulta SQL con LIKE
-        const sql = `SELECT * FROM AlumnoAsignatura WHERE ${values.join(' AND ')}`;
+        const sql = `SELECT AlumnoAsignatura.*, Usuario.* 
+                    FROM AlumnoAsignatura
+                    INNER JOIN Alumno ON Alumno.idAlumno = AlumnoAsignatura.idAlumno 
+                    INNER JOIN Usuario ON Usuario.idUsuario = Alumno.idUsuario WHERE ${values.join(' AND ')}`;
         
         // Agregar los valores con los comodines %
         const params = keys.map(key => `%${where[key]}%`);

@@ -54,6 +54,13 @@ class EvidenciaEntregada {
 
         return db.query(sql, params);
     }
+
+    static findEvidenciasEntregadasByAlumnoYGrupo(idAlmumno, idGrupoMateria){
+        return db.query(`SELECT EvidenciaEntregada.* 
+                        FROM EvidenciaEntregada 
+                        INNER JOIN Evidencia ON Evidencia.idEvidencia = EvidenciaEntregada.idEvidencia
+                        WHERE EvidenciaEntregada.idAlumno = ? AND Evidencia.idGrupoMateria = ?` , [idAlmumno, idGrupoMateria]);
+    }
 }
 
 module.exports = EvidenciaEntregada;

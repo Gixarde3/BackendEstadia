@@ -31,6 +31,24 @@ class Evidencia {
             .then(results => results[0]);
     }
 
+    static calcularPromedioPorEvidencia(idEvidencia) {
+        const sql = `SELECT sum(calificacion)/count(*) as promedioGrupal
+                        FROM (
+                            SELECT 
+                                Evidencia.idEvidencia,
+                                sum(CriterioEvaluacionPuntajes.puntaje * CriterioEvaluacion.porcentaje_al_final / 100) as calificacion
+                            FROM CriterioEvaluacionPuntajes
+                            INNER JOIN CriterioEvaluacion 
+                                ON CriterioEvaluacion.idCriterioEvaluacion = CriterioEvaluacionPuntajes.idCriterioEvaluacion
+                            LEFT JOIN Evidencia 
+                                ON Evidencia.idEvidencia = CriterioEvaluacion.idEvidencia
+                            WHERE Evidencia.idEvidencia = ?
+                            GROUP BY CriterioEvaluacionPuntajes.idAlumno
+                        ) AS calificaciones_evidencias
+                        GROUP BY idEvidencia;`;
+        return db.query(sql, [idEvidencia]).then(results => results[0]);
+    }
+
     static find(where) {
         // Asumimos que 'where' es un objeto con clave-valor
         const keys = Object.keys(where);

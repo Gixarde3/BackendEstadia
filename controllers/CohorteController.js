@@ -64,6 +64,15 @@ class CohorteController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async cumplimientoAtributoEgreso(req, res) {
+        try {
+            const items = await models.Cohorte.cumplimientoAtributoEgreso(req.params.idCohorte, req.params.idAtributoEgreso);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 module.exports = CohorteController;

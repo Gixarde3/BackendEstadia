@@ -58,6 +58,14 @@ class GrupoMateria {
             WHERE idAlumno = ? AND Evidencia.idGrupoMateria = ?;
             `, [idAlumno, idGrupoMateria]).then(results => results[0]);
     }
+
+    static getPorcentajesNoEntrega(idGrupoMateria){
+        return db.query(`SELECT 100 - (count(distinct EvidenciaEntregada.idEvidencia) / count(distinct AlumnoAsignatura.idAlumno) * 100) as Porcentaje,  EvidenciaEntregada.idEvidencia
+                        FROM EvidenciaEntregada
+                        RIGHT JOIN AlumnoAsignatura on AlumnoAsignatura.idAlumno = EvidenciaEntregada.idAlumno
+                        WHERE AlumnoAsignatura.idGrupoMateria = ?
+                        group by EvidenciaEntregada.idEvidencia`, [idGrupoMateria]);
+    }
 }
 
 module.exports = GrupoMateria;

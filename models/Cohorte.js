@@ -47,6 +47,24 @@ class Cohorte {
         
         return db.query(sql, params);
     }
+
+    static cumplimientoAtributoEgreso(idCohorte, idAtributoEgreso){
+        return db.query(`
+            SELECT avg(t.calificacion) as promedio
+            FROM Evidencia
+            INNER JOIN (
+                SELECT sum(CriterioEvaluacionPuntajes.puntaje * CriterioEvaluacion.porcentaje_al_final / 100)/count(DISTINCT CriterioEvaluacionPuntajes.idAlumno) as calificacion, CriterioEvaluacion.idEvidencia
+                FROM CriterioEvaluacionPuntajes
+                INNER JOIN CriterioEvaluacion on CriterioEvaluacion.idCriterioEvaluacion = CriterioEvaluacionPuntajes.idCriterioEvaluacion
+                GROUP BY CriterioEvaluacion.idEvidencia
+            ) as t ON t.idEvidencia = Evidencia.idEvidencia 
+            INNER JOIN GrupoMateria ON GrupoMateria.idGrupoMateria = Evidencia.idGrupoMateria
+            INNER JOIN Grupo ON Grupo.idGrupo = GrupoMateria.idGrupo
+            INNER JOIN Cohorte ON Cohorte.idCohorte = Grupo.idCohorte
+            WHERE Cohorte.idCohorte = ? AND Evidencia.idAtributoEgreso = ?;
+            `, [idCohorte, idAtributoEgreso])
+            .then(results => results[0]);
+    }
 }
 
 module.exports = Cohorte;

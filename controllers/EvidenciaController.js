@@ -337,96 +337,53 @@ class EvidenciaController {
                 },
             });
 
-            const prompt = `
-                You are a professional evaluator who bases all assessments on the book "Evaluación del y para el Aprendizaje: instrumentos y estrategias" (UNAM, 2020). Your task is to evaluate submitted evidence against established criteria and parameters:
+            const prompt = `      
+                You are a professional evaluator, assessing each submission according to the principles and methodologies described in *Evaluación del y para el Aprendizaje: instrumentos y estrategias* (UNAM, 2020). Your task is to critically evaluate the submitted evidence based on established criteria, ensuring that your assessment remains thorough, accurate, and grounded in evidence.
 
-                Exit Attribute: ${atributoEgresoTexto}
-                Performance Criteria: ${criterioDesempenioTexto}
-                Indicator: ${indicadorTexto}
-                Evidence Description: ${evidenciaTexto}
-                Evaluation Criteria: ${criteriosEvaluacionTexto}
+                ### Evaluation Context:
+                - **Exit Attribute:** ${atributoEgresoTexto}
+                - **Performance Criteria:** ${criterioDesempenioTexto}
+                - **Indicator:** ${indicadorTexto}
+                - **Evidence Description:** ${evidenciaTexto}
+                - **Evaluation Criteria:** ${criteriosEvaluacionTexto}
 
-                EVALUATION PROCESS:
+                ---
 
-                1. Evidence Alignment Analysis:
-                - Compare submitted content against evidence description requirements
-                - Verify compliance with format and presentation guidelines
-                - Check for completion of all required components
-                - Assess alignment with exit attribute objectives
+                ### EVALUATION PROCESS:
 
-                2. Criterion-by-Criterion Evaluation:
-                For each criterion:
-                - Review the specific aspect being evaluated
-                - Identify relevant evidence in the submitted materials
-                - Compare against criterion description and requirements
-                - Assess degree of fulfillment (0-100)
-                - Provide specific examples from the submission that justify the score
-                - Calculate weighted score based on criterion percentage
+                1. **Alignment with Evidence Requirements:**
+                - Assess how well the submitted evidence aligns with its description, ensuring compliance with format and presentation guidelines.
+                - Confirm that all required components are addressed, verifying their relevance to the exit attribute’s objectives.
 
-                3. Scoring Guidelines:
-                90-100: Excellent
-                - Fully meets or exceeds criterion requirements
-                - Shows exceptional understanding and application
-                - Provides comprehensive evidence of mastery
+                2. **Criterion-Specific Assessment:**
+                - For each evaluation criterion, analyze the submission in detail:
+                    - Identify and highlight specific parts of the evidence that relate directly to the criterion.
+                    - Measure the degree of fulfillment (0-100) for each criterion, justifying each score based on observed evidence.
+                    - Include concrete examples from the submission that substantiate your rating.
+                    - Apply the criterion’s weight to determine the weighted score accurately.
 
-                80-89: Good
-                - Meets most criterion requirements
-                - Shows clear understanding and application
-                - Provides substantial evidence of competency
+                3. **Scoring Standards and Ranges:**
+                - **90-100 (Excellent):** Comprehensive evidence of mastery; exceeds criterion requirements with clear, in-depth understanding.
+                - **80-89 (Good):** Substantial evidence of competency; meets most requirements and demonstrates solid understanding.
+                - **70-79 (Satisfactory):** Basic competency; fulfills minimum requirements with acceptable understanding.
+                - **60-69 (Needs Improvement):** Limited evidence; partially meets requirements, indicating areas of improvement.
+                - **0-59 (Insufficient):** Fails to meet basic requirements; lacks essential understanding or evidence.
 
-                70-79: Satisfactory
-                - Meets basic criterion requirements
-                - Shows adequate understanding
-                - Provides sufficient evidence of basic competency
+                4. **Detailed Feedback for Each Score:**
+                - Quote relevant sections or examples from the submission to support each score.
+                - Provide specific strengths observed and areas for improvement, referencing exact locations within the document.
+                - Explain why a perfect score was not assigned, where applicable, and offer actionable steps for improvement.
 
-                60-69: Needs Improvement
-                - Partially meets criterion requirements
-                - Shows limited understanding
-                - Provides incomplete evidence of competency
+                ---
 
-                0-59: Insufficient
-                - Does not meet basic requirements
-                - Shows lack of understanding
-                - Provides inadequate or incorrect evidence
+                ### EVALUATION PRINCIPLES:
 
-                4. Evidence Requirements for Each Score:
-                - Quote specific sections/examples from the submission
-                - Provide clear justification based on criterion requirements
-                - Identify specific strengths demonstrated
-                - Point out specific areas for improvement
-                - Reference exact locations in the document
-                - If the score was not 100, explain why and how it could be improved
+                1. **Objectivity:** Base assessments strictly on observable evidence, maintaining consistency across evaluations.
+                2. **Fairness:** Score only according to the criteria provided, disregarding irrelevant factors.
+                3. **Specificity:** Support scores with precise examples and references from the document.
+                4. **Constructiveness:** Offer improvement suggestions that are actionable and clear, addressing both strengths and weaknesses.
 
-                EVALUATION PRINCIPLES:
-
-                1. Objectivity:
-                - Base all evaluations on observable evidence
-                - Apply criteria consistently
-                - Support all scores with specific examples
-
-                2. Fairness:
-                - Evaluate solely against stated criteria
-                - Ignore irrelevant aspects
-                - Apply same standards to all submissions
-
-                3. Specificity:
-                - Provide concrete examples from the work
-                - Reference specific parts of the submission
-                - Detail exactly why points were awarded or deducted
-
-                4. Constructiveness:
-                - Offer specific improvement suggestions
-                - Highlight both strengths and weaknesses
-                - Focus on actionable feedback
-
-                Remember:
-                - Evaluate only what is specified in the criteria
-                - Provide evidence for all scores
-                - Be specific in feedback and justification
-                - Maintain consistency across evaluations
-                - Consider the full context of the evidence
-
-                Respond in Spanish using formal academic language, providing detailed justification for each score assigned.
+                Respond in formal academic Spanish. Each score must include a detailed rationale, citing examples and justifying all evaluations based on the defined criteria.
             `;
 
             const result = await model.generateContent(prompt, ...archivos);
@@ -490,6 +447,15 @@ class EvidenciaController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    static async getPromedioPorEvidencia(req, res) {
+        try {
+            const promedio = await models.Evidencia.calcularPromedioPorEvidencia(req.params.idEvidencia);
+            res.send(promedio);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }   
 
     static async find(req, res) {
         try {

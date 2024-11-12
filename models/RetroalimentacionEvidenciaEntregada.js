@@ -27,7 +27,7 @@ class RetroalimentacionEvidenciaEntregada {
     }
 
     static findOne(where) {
-        return db.query('SELECT * FROM RetroalimentacionEvidenciaEntregada WHERE ?', where)
+        return db.query('SELECT * FROM RetroalimentacionEvidenciaEntregada WHERE ? ORDER BY idRetrolimentacionEvidenciaEntregada DESC', where)
             .then(results => results[0]);
     }
 

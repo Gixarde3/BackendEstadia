@@ -61,6 +61,7 @@ class AlumnoAsignaturaController {
             const items = await models.AlumnoAsignatura.find(req.body);
             res.send(items);
         } catch (error) {
+            console.log(error);
             res.status(500).send({ error: error.message });
         }
     }
