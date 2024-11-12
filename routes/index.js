@@ -281,3 +281,7 @@ router.put('/retroalimentacionevidenciaentregada/:id', checkPrivileges([1,2,3]),
 router.delete('/retroalimentacionevidenciaentregada/:id', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.delete);
 router.post('/retroalimentacionevidenciaentregada/find', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.findOne);
 router.post('/retroalimentacionevidenciaentregadas/findall', checkPrivileges([1,2,3]), RetroalimentacionEvidenciaEntregadaController.find);
+
+const { BDController } = require('../controllers');
+router.get('/backup', checkPrivileges([3]), BDController.getDB);
+router.post('/backup', checkPrivileges([3]), BDController.loadBD);
