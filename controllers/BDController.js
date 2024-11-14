@@ -27,19 +27,25 @@ class BDController{
     }
 
     static async loadBD(req, res){
-        const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
-        const file = req.files.sql;
-        const filePath = file.path;
-        const addPassword = DB_PASSWORD ? `-p${DB_PASSWORD}` : '';
-        const command = `mysql -u ${DB_USER} ${addPassword} < ${filePath}`;
+        try{
+            const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
+            const file = req.files.sql;
+            const filePath = file.path;
+            const addPassword = DB_PASSWORD ? `-p${DB_PASSWORD}` : '';
+            const command = `mysql -u ${DB_USER} ${addPassword} < ${filePath}`;
 
-        exec(command, (error, stdout, stderr) => {
-            if(error){
-                res.status(500).send({error: error.message});
-                return;
-            }
-            res.send({message: 'Base de datos cargada correctamente'});
-        });
+            exec(command, (error, stdout, stderr) => {
+                if(error){
+                    res.status(500).send({error: error.message});
+                    return;
+                }
+                res.send({message: 'Base de datos cargada correctamente'});
+            });
+        }catch(error){
+            console.log(error);
+            res.status(500).send({error: error.message});
+        }
+        
     }
 }
 

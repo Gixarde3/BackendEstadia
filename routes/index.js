@@ -233,10 +233,10 @@ router.get('/descripciones/:filename', (req, res) => {
 
 const { EvidenciaEntregadaController } = require('../controllers');
 
-router.get('/evidenciaentregadas', /*checkPrivileges([1,2,3]), */EvidenciaEntregadaController.getAll);
+router.get('/evidenciaentregadas', checkPrivileges([1,2,3]), EvidenciaEntregadaController.getAll);
 router.get('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.getById);
-router.post('/evidenciaentregada', /*checkPrivileges([1,2,3]), */EvidenciaEntregadaController.create);
-router.put('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.update);
+router.post('/evidenciaentregada', checkPrivileges([1]), EvidenciaEntregadaController.create);
+router.put('/evidenciaentregada/:id', checkPrivileges([1]), EvidenciaEntregadaController.update);
 router.delete('/evidenciaentregada/:id', checkPrivileges([1,2,3]), EvidenciaEntregadaController.delete);
 router.post('/evidenciaentregada/find', checkPrivileges([1,2,3]), EvidenciaEntregadaController.findOne);
 router.post('/evidenciaentregadas/findall', checkPrivileges([1,2,3]), EvidenciaEntregadaController.find);
