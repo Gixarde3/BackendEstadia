@@ -13,6 +13,7 @@ function checkPrivileges(requiredPrivilege) {
         if (!requiredPrivilege.includes(req.session.user.privilege)) {
             return res.status(403).send('Acceso denegado. No tienes los privilegios suficientes.');
         }
+        req.session.cookie.expires = new Date(Date.now() + 15 * 60 * 1000);
         next();
     };
 }
@@ -165,7 +166,7 @@ router.put('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.update)
 router.delete('/evidencia/:id', checkPrivileges([2,3]), EvidenciaController.delete);
 router.post('/evidencia/find', checkPrivileges([2,3]), EvidenciaController.findOne);
 router.post('/evidencias/findall', checkPrivileges([1, 2,3]), EvidenciaController.find);
-router.post('/evidencia/generar',checkPrivileges([2,3]), EvidenciaController.generateEvidencia);
+router.post('/evidencia/generar',checkPrivileges([2,3]), (req, res, next) => {req.body.idUsuario = req.session.user.idUsuario; next()}, EvidenciaController.generateEvidencia);
 router.get('/evidencia/promedio/:idEvidencia',/*checkPrivileges([2,3]),*/ EvidenciaController.getPromedioPorEvidencia);
 
 
@@ -289,3 +290,13 @@ router.post('/retroalimentacionevidenciaentregadas/findall', checkPrivileges([1,
 const { BDController } = require('../controllers');
 router.get('/backup', checkPrivileges([3]), BDController.getDB);
 router.post('/backup', checkPrivileges([3]),BDController.loadBD);
+
+const { NotificacionController } = require('../controllers');
+
+router.get('/notificacions', checkPrivileges([1,2,3]), NotificacionController.getAll);
+router.get('/notificacion/:id', checkPrivileges([1,2,3]), NotificacionController.getById);
+router.post('/notificacion', checkPrivileges([1,2,3]), NotificacionController.create);
+router.put('/notificacion/:id', checkPrivileges([1,2,3]), NotificacionController.update);
+router.delete('/notificacion/:id', checkPrivileges([1,2,3]), NotificacionController.delete);
+router.post('/notificacion/find', checkPrivileges([1,2,3]), NotificacionController.findOne);
+router.post('/notificacions/findall', checkPrivileges([1,2,3]), NotificacionController.find);

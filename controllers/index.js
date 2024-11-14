@@ -45,3 +45,5 @@ const RetroalimentacionEvidenciaEntregadaController = require('./Retroalimentaci
 module.exports.RetroalimentacionEvidenciaEntregadaController = RetroalimentacionEvidenciaEntregadaController;
 const BDController = require('./BDController.js');
 module.exports.BDController = BDController;
+const NotificacionController = require('./NotificacionController.js');
+module.exports.NotificacionController = NotificacionController;

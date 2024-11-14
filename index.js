@@ -13,12 +13,11 @@ app.use(session({
     saveUninitialized: false,
     store: new FileStore({
         path: './sessions',
-        ttl: 24 * 60 * 60,
         retries: 0
     }),
     cookie: { 
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 15 * 60 * 1000,
         path: '/' 
     }
 }));

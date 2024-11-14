@@ -267,6 +267,11 @@ class EvidenciaController {
             await models.CriterioEvaluacion.create(criteriosEvaluacion[i]);
         }
         actividad.idEvidencia = evidencia.idEvidencia;
+        await models.Notificacion.create({
+            idUsuario: req.body.idUsuario,
+            titulo: "Evidencia creada",
+            contenido: `Se ha creado una nueva evidencia con el nombre ${actividad.nombre}`
+        })
         res.send(actividad);
     }
 
@@ -402,6 +407,8 @@ class EvidenciaController {
                     await models.CriterioEvaluacionPuntajes.create({idCriterioEvaluacion: criteriosEvaluacion[i].idCriterioEvaluacion, idAlumno: evidenciaEntregada.idAlumno, puntaje: calificacion});
                 }
             }
+            const idUsuarioAlumno = await models.Alumno.findById(evidenciaEntregada.idAlumno);
+            await models.Notificacion.create({idUsuario: idUsuarioAlumno.idUsuario, titulo: 'Se ha generado retroalimentación para una de tus evidencias entregadas', contenido: "Se ha generado retroalimentación para una de tus evidencias entregadas, revisa tus entregas para ver la retroalimentación"});
             await models.RetroalimentacionEvidenciaEntregada.create({idEvidenciaEntregada: req.body.idEvidenciaEntregada, retroalimentacion: retroalimentacion.retroalimentacion});
             res.send(retroalimentacion);
         }catch(error){

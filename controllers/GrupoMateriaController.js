@@ -121,6 +121,12 @@ class GrupoMateriaController {
 
             console.log(prompt);
             const modelAI = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const idUsuarioAlumno = await models.Alumno.findById(idAlumno);
+            await models.Notificacion.create({
+                idUsuario: idUsuarioAlumno.idUsuario,
+                titulo: 'Retroalimentación generada',
+                contenido: 'Se ha generado una retroalimentación de materia para ti'
+            });
             const response = await modelAI.generateContent(prompt);
             res.send(response.response.text());
         }catch(error){

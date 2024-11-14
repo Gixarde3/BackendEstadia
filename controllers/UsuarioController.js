@@ -3,7 +3,6 @@ const models = require('../models');
 const bcrypt = require('bcrypt');
 const controllers = require('./index');
 const path = require('path');
-
 class UsuarioController {
     /**
      * Obtiene todos los registros de Usuario
@@ -194,6 +193,90 @@ class UsuarioController {
                 return res.status(401).send({ error: 'Invalid password' });
             }
             req.session.user = user;
+            controllers.MailController.sendMail(user.email_personal, "Inicio de sesión", `
+                    <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>Inicio de sesión registrado</title>
+                                <link rel="preconnect" href="https://fonts.googleapis.com">
+                                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+                                <style>
+                                    :root{
+                                        --principal: #592c80;
+                                    }
+                                    *{
+                                        font-family: 'Open Sans', sans-serif;
+                                        box-sizing: border-box;
+                                    }
+                                    main{
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        padding: 1rem;
+                                    }
+                                    h1{
+                                        margin: 0;
+                                        font-size: 32px;
+                                        text-align: center;
+                                    }
+                                    p{
+                                        margin:0;
+                                        font-family: "Open Sans";
+                                        font-size: 16px;
+                                        line-height: 1.57143;
+                                        text-align: center;
+                                        width: 100%;
+                                    }
+                                    a{
+                                        text-decoration: none;
+                                        color: white;
+                                    }
+                                    .accept{
+                                        background-color: #592c80;
+                                        color: #fff !important;
+                                        font-size: 1rem;
+                                        font-weight: bold;
+                                        padding: 10px 20px;
+                                        letter-spacing: 2px;
+                                        cursor: pointer;
+                                        transition: all 0.3s;
+                                    }
+                                    .accept:hover{
+                                        scale: 1.01;
+                                    }
+                                    .accept:active{
+                                        scale: 0.99;
+                                    }
+                                    .aclaracion{
+                                        font-size: 12px;
+                                        color: #8c8c8c;
+                                    }
+                                    img{
+                                        max-width: 100%;
+                                        width: 200px;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <main>
+                                    <!-- TODO Mail respuesta enviada -->
+                                    <div style="text-align: center; padding: 20px;">
+                                        <img src="cid:logoUpemor" alt="Logo de la UPEMOR" style="max-width: 60%;">
+                                    </div>
+                                    <h1 style="text-align: center; color: #F50003;">Se ha registrado un inicio de sesión en tu cuenta.</h1>
+                                </main> 
+                            </body>
+                            </html>
+                        
+                `, [{
+                    filename: 'logo.jpg',
+                    path: path.join(__dirname, '../img/logo.jpg'),
+                    cid: 'logoUpemor' // ID del archivo
+                }]);
             res.send(user);
         } catch (error) {
             res.status(500).send({ error: error.message });

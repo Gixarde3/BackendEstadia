@@ -80,6 +80,16 @@ class EvidenciaEntregadaController {
                     fs.unlinkSync(path.join(__dirname, `../uploads/${archivo.archivo}`));
                     await models.ArchivoEvidenciaEntregada.delete(archivo.idArchivoEvidenciaEntregada);
                 });
+                const evidencia = await models.Evidencia.findById(req.body.idEvidencia);
+                const grupoMateria = await models.GrupoMateria.findById(evidencia.idGrupoMateria);
+                const profesor = await models.Profesor.findById(grupoMateria.idProfesor);
+                const usuarioNotificacion = await models.Usuario.findById(profesor.idUsuario);
+                const notificacion = await models.Notificacion.create({
+                    idUsuario: usuarioNotificacion.idUsuario,
+                    titulo: 'Nueva evidencia entregada',
+                    contenido: `El alumno ${req.body.idAlumno} ha entregado la evidencia ${evidencia.nombre}`,
+                });
+                
                 res.send(evidenciaEntregada[0]);
                 return;
             }
